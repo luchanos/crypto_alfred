@@ -13,10 +13,8 @@ bot = TeleBot(TOKEN)
 
 
 def write_msg_to_admin(message):
-    markup = types.ReplyKeyboardRemove(selective=False)
     bot.reply_to(message,
-                 "Спасибо! Твоё сообщение зарегистрировано под номером 666. Жди ответа!",
-                 reply_markup=markup)
+                 "Спасибо! Твоё сообщение зарегистрировано под номером 666. Жди ответа!")
 
 
 def message_to_admin(message):
@@ -24,7 +22,7 @@ def message_to_admin(message):
     markup = types.ReplyKeyboardRemove(selective=False)
     if message.text == 'Да':
         bot.register_next_step_handler(message, write_msg_to_admin)
-        bot.send_message(chat_id, "Очень внимательно тебя слушаю")
+        bot.send_message(chat_id, "Очень внимательно тебя слушаю", reply_markup=markup)
     else:
         bot.send_message(chat_id, "Хорошо! Если что - пиши ;) ", reply_markup=markup)
 
@@ -54,6 +52,17 @@ def start(message):
     markup.add(itembtn1, itembtn2, itembtn3, itembtn4)
     bot.send_message(chat_id, LEVEL_QUESTION, reply_markup=markup)
     bot.register_next_step_handler(message, level_question)
+
+
+mat = {'хуй', 'пизда', 'уёбок', 'уебок'}
+
+
+@bot.message_handler(func=lambda message: True)
+def listen_all_messages(message):
+    print(message)
+    for word in mat:
+        if word in message.text:
+            bot.reply_to(message, text='Не ругайся!')
 
 
 try:
