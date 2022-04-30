@@ -7,8 +7,7 @@ from messages_templates import GREETINGS_MESSAGE, LEVEL_QUESTION, TEACHING_PROPO
 env = Env()
 logger = logging.getLogger(__name__)
 
-# TOKEN = env.str("TOKEN")
-TOKEN = "2104221180:AAGmwLGyb1m8fTnePreXS5bruo_HaW2Vj_w"
+TOKEN = env.str("TOKEN")
 
 bot = TeleBot(TOKEN)
 
