@@ -20,7 +20,8 @@ class CoinApiClient:
             "X-CoinAPI-Key": f"{self.api_key}"
         }
 
-    def proccess_response(self, resp):
+    @staticmethod
+    def proccess_response(resp):
         if resp.status_code == 200:
             return resp.json()
         else:
