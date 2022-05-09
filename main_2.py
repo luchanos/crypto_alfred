@@ -36,11 +36,6 @@ def accept_rules_by_user(bot, message, markup):
         json.dump(users, f_o, indent=4, ensure_ascii=False)
 
 
-def generate_greet_message():
-    return """Приветствую! Ознакомьтесь с правилами чата: правила чата.
-Согласны ли вы с ними?"""
-
-
 @bot.message_handler(commands=["menu"])
 def menu_chooser_main(message):
     markup = types.ReplyKeyboardMarkup(row_width=2)
@@ -63,13 +58,26 @@ def menu_chooser_submain(message):
         markup.add(itembtn1, itembtn2, itembtn3, itembtn4)
         bot.reply_to(message, 'Укажите свой уровень знаний', reply_markup=markup)
         bot.register_next_step_handler(message, write_knowledge_level)
+    elif answer == 'Ознакомиться с рейтинговой системой':
+        markup = types.ReplyKeyboardRemove(selective=False)
+        bot.reply_to(message, 'Вот наша рейтинговая система: ############', reply_markup=markup)
+    elif answer == 'Написать админу':
+        markup = types.ReplyKeyboardRemove(selective=False)
+        bot.register_next_step_handler(message, write_to_admin)
+        bot.reply_to(message, 'Что хотите написать?', reply_markup=markup)
+
+
+def write_to_admin(message):
+    msg_to_admin = message.text.strip()
+    bot.reply_to(message, "Ваше обращение зарегистрировано!")
 
 
 def write_knowledge_level(message):
     markup = types.ReplyKeyboardRemove(selective=False)
     level = message.text.strip()
     user_id = str(message.from_user.id)
-    bot.reply_to(message, "Отлично!", reply_markup=markup)
+    bot.reply_to(message, "Отлично! Для углубления своих знаний рекомендуем ознакомиться со"
+                          "следующими статьями: ############", reply_markup=markup)
     with open("users.json", "r") as f_o:
         users = json.load(f_o)
     user_info = users[user_id]
@@ -97,7 +105,8 @@ def start(message: Message):
     itembtn1 = types.KeyboardButton('Принимаю')
     itembtn2 = types.KeyboardButton('Не принимаю')
     markup.add(itembtn1, itembtn2)
-    bot.reply_to(message, generate_greet_message(), reply_markup=markup)
+    bot.reply_to(message, """Приветствую! Ознакомьтесь с правилами чата: правила чата.
+Согласны ли вы с ними?""", reply_markup=markup)
     bot.register_next_step_handler(message, proceed_accept_rules_answer)
 
 
