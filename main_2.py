@@ -62,11 +62,7 @@ def menu_chooser_submain(message):
         itembtn4 = types.KeyboardButton('Бог')
         markup.add(itembtn1, itembtn2, itembtn3, itembtn4)
         bot.reply_to(message, 'Укажите свой уровень знаний', reply_markup=markup)
-        bot.register_next_step_handler(message, knowledge_level)
-
-
-def knowledge_level(message):
-    write_knowledge_level(message)
+        bot.register_next_step_handler(message, write_knowledge_level)
 
 
 def write_knowledge_level(message):
