@@ -3,12 +3,14 @@
         "rating": 0,
         "status": "Mr. Andersen",
         "accepted_rules": true,
-        "chat_id": 362857450
+        "chat_id": 362857450,
+        "level": "Середнячок"
     },
     "323045049": {
         "rating": 0,
         "status": "Mr. Andersen",
         "accepted_rules": true,
-        "chat_id": 323045049
+        "chat_id": 323045049,
+        "level": null
     }
 }

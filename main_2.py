@@ -41,13 +41,45 @@ def generate_greet_message():
 Согласны ли вы с ними?"""
 
 
-def menu_chooser(message):
+@bot.message_handler(commands=["menu"])
+def menu_chooser_main(message):
     markup = types.ReplyKeyboardMarkup(row_width=2)
     itembtn1 = types.KeyboardButton('Написать админу')
     itembtn2 = types.KeyboardButton('Указать уровень знаний')
     itembtn3 = types.KeyboardButton('Ознакомиться с рейтинговой системой')
     markup.add(itembtn1, itembtn2, itembtn3)
     bot.send_message(message.chat.id, 'Добро пожаловать в меню', reply_markup=markup)
+    bot.register_next_step_handler(message, menu_chooser_submain)
+
+
+def menu_chooser_submain(message):
+    answer = message.text.strip()
+    if answer == 'Указать уровень знаний':
+        markup = types.ReplyKeyboardMarkup(row_width=2)
+        itembtn1 = types.KeyboardButton('Новичок')
+        itembtn2 = types.KeyboardButton('Середнячок')
+        itembtn3 = types.KeyboardButton('Профи')
+        itembtn4 = types.KeyboardButton('Бог')
+        markup.add(itembtn1, itembtn2, itembtn3, itembtn4)
+        bot.reply_to(message, 'Укажите свой уровень знаний', reply_markup=markup)
+        bot.register_next_step_handler(message, knowledge_level)
+
+
+def knowledge_level(message):
+    write_knowledge_level(message)
+
+
+def write_knowledge_level(message):
+    markup = types.ReplyKeyboardRemove(selective=False)
+    level = message.text.strip()
+    user_id = str(message.from_user.id)
+    bot.reply_to(message, "Отлично!", reply_markup=markup)
+    with open("users.json", "r") as f_o:
+        users = json.load(f_o)
+    user_info = users[user_id]
+    user_info["level"] = level
+    with open("users.json", "w") as f_o:
+        json.dump(users, f_o, indent=4, ensure_ascii=False)
 
 
 def proceed_accept_rules_answer(message):
@@ -55,7 +87,7 @@ def proceed_accept_rules_answer(message):
     answer = message.text.strip()
     if answer == "Принимаю":
         accept_rules_by_user(bot, message, markup)
-        menu_chooser(message)
+        menu_chooser_main(message)
     else:
         bot.reply_to(message, "Жаль, без этого мы не сможем принять тебя в сообщество!", reply_markup=markup)
 
