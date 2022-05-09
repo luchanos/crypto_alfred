@@ -68,8 +68,9 @@ def menu_chooser_submain(message):
 
 
 def write_to_admin(message):
-    msg_to_admin = message.text.strip()
     bot.reply_to(message, "Ваше обращение зарегистрировано!")
+    bot.send_message(chat_id=ADMIN_CHAT_ID, text=f"Пользователь @{message.from_user.username} оставил обращение:"
+                                                 f" «{message.text.strip()}»")
 
 
 def write_knowledge_level(message):
