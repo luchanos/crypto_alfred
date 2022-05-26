@@ -121,7 +121,7 @@ def start(message: Message):
     itembtn1 = types.KeyboardButton('Принимаю')
     itembtn2 = types.KeyboardButton('Не принимаю')
     markup.add(itembtn1, itembtn2)
-    bot.reply_to(message, """Приветствую! Ознакомьтесь с правилами чата: правила чата.
+    bot.reply_to(message, """Приветствую! Ознакомьтесь с правилами чата: https://teletype.in/@coiners/Um4d1JbBAgD.
 Согласны ли вы с ними?""", reply_markup=markup)
     bot.register_next_step_handler(message, proceed_accept_rules_answer)
 
