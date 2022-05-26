@@ -127,9 +127,9 @@ def start(message: Message):
 
 
 def get_referal_link_from_db(user_id):
-    with open("invited_links.json", "r") as f_o:
+    with open("users.json", "r") as f_o:
         links = json.load(f_o)
-        user_link = links.get(str(user_id))
+        user_link = links.get(str(user_id)).get("referal_link")
         if user_link is not None:
             return user_link
     generated_link_data = bot.tg_client.generate_invite_link(chat_id=MAIN_CHAT_ID)
@@ -139,7 +139,12 @@ def get_referal_link_from_db(user_id):
             links = json.load(f_o)
             links[user_link] = str(user_id)
         with open("invited_links.json", "w") as f_o:
-            json.dump(links, f_o)
+            json.dump(links, f_o, indent=4, ensure_ascii=False)
+        with open("users.json", "r") as f_o:
+            users = json.load(f_o)
+        with open("users.json", "w") as f_o:
+            users[str(user_id)]["referal_link"] = user_link
+            json.dump(users, f_o, indent=4, ensure_ascii=False)
         return user_link
     raise Exception("Smth went wrong due to generation referal link. Generated data: ", generated_link_data)
 
