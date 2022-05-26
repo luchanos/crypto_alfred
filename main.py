@@ -10,6 +10,9 @@ ADMIN_CHAT_ID = env.str("ADMIN_CHAT_ID")
 
 bot = telebot.TeleBot(TOKEN)
 
+with open("bad_words.txt") as f_o:
+    BAD_WORDS = f_o.readlines()
+
 
 def register_new_user(user_id: int, chat_id: int):
     with open("users.json", "r") as f_o:
@@ -109,6 +112,14 @@ def start(message: Message):
     bot.reply_to(message, """Приветствую! Ознакомьтесь с правилами чата: правила чата.
 Согласны ли вы с ними?""", reply_markup=markup)
     bot.register_next_step_handler(message, proceed_accept_rules_answer)
+
+
+@bot.message_handler(content_types=["text"])
+def bad_language_moderator(message):
+    for bad_word in BAD_WORDS:
+        if bad_word.strip() in message.text:
+            bot.reply_to(message, text="Не ругайся!")
+            break
 
 
 while True:
