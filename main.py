@@ -4,14 +4,26 @@ from envparse import Env
 from telebot.types import Message
 from telebot import types
 
+from raw_telegram_client import TelegramClientRaw
+
 env = Env()
 TOKEN = env.str("TOKEN")
 ADMIN_CHAT_ID = env.str("ADMIN_CHAT_ID")
+BASE_TG_URL = "https://api.telegram.org"
+MAIN_CHAT_ID = env.str("MAIN_CHAT_ID")
 
-bot = telebot.TeleBot(TOKEN)
+
+class CustomBot(telebot.TeleBot):
+    def __init__(self, tg_client: TelegramClientRaw, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.tg_client = tg_client
+
 
 with open("bad_words.txt") as f_o:
     BAD_WORDS = f_o.readlines()
+
+tg_client = TelegramClientRaw(token=TOKEN, base_url=BASE_TG_URL)
+bot = CustomBot(token=TOKEN, tg_client=tg_client)
 
 
 def register_new_user(user_id: int, chat_id: int):
@@ -112,6 +124,30 @@ def start(message: Message):
     bot.reply_to(message, """Приветствую! Ознакомьтесь с правилами чата: правила чата.
 Согласны ли вы с ними?""", reply_markup=markup)
     bot.register_next_step_handler(message, proceed_accept_rules_answer)
+
+
+def get_referal_link_from_db(user_id):
+    with open("invited_links.json", "r") as f_o:
+        links = json.load(f_o)
+        user_link = links.get(str(user_id))
+        if user_link is not None:
+            return user_link
+    generated_link_data = bot.tg_client.generate_invite_link(chat_id=MAIN_CHAT_ID)
+    user_link = generated_link_data.get("result").get("invite_link")
+    if user_link is not None:
+        with open("invited_links.json", "r") as f_o:
+            links = json.load(f_o)
+            links[user_link] = str(user_id)
+        with open("invited_links.json", "w") as f_o:
+            json.dump(links, f_o)
+        return user_link
+    raise Exception("Smth went wrong due to generation referal link. Generated data: ", generated_link_data)
+
+
+@bot.message_handler(commands=["give_me_referal_link"])
+def give_me_referal_link(message):
+    referal_link = get_referal_link_from_db(message.from_user.id)
+    bot.reply_to(message, text=f"Вот твоя реферальная ссылка: {referal_link}")
 
 
 @bot.message_handler(content_types=["text"])
