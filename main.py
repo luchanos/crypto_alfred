@@ -1,11 +1,10 @@
-import json
 from typing import Union
 
 import telebot
 from envparse import Env
 from mongoengine import DoesNotExist
-from telebot.types import Message
-from telebot import types
+from telebot.types import Message, ChatMemberUpdated
+from telebot import types, util
 
 from mongo_models import User
 from raw_telegram_client import TelegramClientRaw
@@ -14,8 +13,9 @@ from mongoengine import connect
 env = Env()
 TOKEN = env.str("TOKEN")
 ADMIN_CHAT_ID = env.str("ADMIN_CHAT_ID")
-BASE_TG_URL = "https://api.telegram.org"
+BASE_TG_URL = env.str("TELEGRAM_BASE_URL", default="https://api.telegram.org")
 MAIN_CHAT_ID = env.str("MAIN_CHAT_ID")
+MONGO_DB_NAME = env.str("MONGO_DB_NAME", default="crypto_alfred_db")
 
 
 class CustomBot(telebot.TeleBot):
@@ -29,7 +29,7 @@ with open("bad_words.txt") as f_o:
 
 tg_client = TelegramClientRaw(token=TOKEN, base_url=BASE_TG_URL)
 bot = CustomBot(token=TOKEN, tg_client=tg_client)
-connect("crypto_alfred_db")
+connect(MONGO_DB_NAME)
 
 
 def get_user(user_id: int) -> Union[User, None]:
@@ -121,19 +121,25 @@ def start(message: Message):
 def get_referal_link(user_id):
     user = get_user(user_id)
     referal_link = user.referal_link
-    if referal_link is not None:
-        return referal_link
-    else:
+    if referal_link is None:
         generated_link_data = bot.tg_client.generate_invite_link(chat_id=MAIN_CHAT_ID)
         referal_link = generated_link_data.get("result").get("invite_link")
         user.referal_link = referal_link
         user.save()
+    return referal_link
 
 
 @bot.message_handler(commands=["give_me_referal_link"])
 def give_me_referal_link(message):
     referal_link = get_referal_link(message.from_user.id)
     bot.reply_to(message, text=f"Вот твоя реферальная ссылка: {referal_link}")
+
+
+@bot.chat_member_handler()
+def handle_invites_via_link(message):
+    if isinstance(message, ChatMemberUpdated):
+        # todo тут сделать так, чтобы писать в логи и оповещать пользователя что ему начислили рейтинг
+        User.objects(referal_link=message.invite_link.invite_link).update_one(inc__rating=1)
 
 
 @bot.message_handler(content_types=["text"])
@@ -146,6 +152,6 @@ def bad_language_moderator(message):
 
 while True:
     try:
-        bot.polling()
+        bot.polling(allowed_updates=util.update_types)
     except Exception as err:
         print(err)
