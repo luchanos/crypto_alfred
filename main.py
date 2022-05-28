@@ -1,10 +1,15 @@
 import json
+from typing import Union
+
 import telebot
 from envparse import Env
+from mongoengine import DoesNotExist
 from telebot.types import Message
 from telebot import types
 
+from mongo_models import User
 from raw_telegram_client import TelegramClientRaw
+from mongoengine import connect
 
 env = Env()
 TOKEN = env.str("TOKEN")
@@ -24,20 +29,23 @@ with open("bad_words.txt") as f_o:
 
 tg_client = TelegramClientRaw(token=TOKEN, base_url=BASE_TG_URL)
 bot = CustomBot(token=TOKEN, tg_client=tg_client)
+connect("my_collection")
 
 
-def register_new_user(user_id: int, chat_id: int):
-    with open("users.json", "r") as f_o:
-        users = json.load(f_o)
-        if str(user_id) not in users:
-            users[user_id] = {
-                "rating": 0,
-                "status": "Mr. Andersen",
-                "accepted_rules": False,
-                "chat_id": chat_id
-            }
-    with open("users.json", "w") as f_o:
-        json.dump(users, f_o, indent=4, ensure_ascii=False)
+def get_user(user_id: int) -> Union[User, None]:
+    try:
+        user = User.objects.get(user_id=user_id)
+    except DoesNotExist as err:
+        print(user_id, err)
+        return
+    return user
+
+
+def register_new_user(user_id: int, chat_id: int) -> User:
+    user = get_user(user_id)
+    if user is None:
+        user = User(user_id=user_id, chat_id=str(chat_id)).save()
+    return user
 
 
 def accept_rules_by_user(bot, message, markup):
@@ -126,32 +134,21 @@ def start(message: Message):
     bot.register_next_step_handler(message, proceed_accept_rules_answer)
 
 
-def get_referal_link_from_db(user_id):
-    with open("users.json", "r") as f_o:
-        links = json.load(f_o)
-        user_link = links.get(str(user_id)).get("referal_link")
-        if user_link is not None:
-            return user_link
-    generated_link_data = bot.tg_client.generate_invite_link(chat_id=MAIN_CHAT_ID)
-    user_link = generated_link_data.get("result").get("invite_link")
-    if user_link is not None:
-        with open("invited_links.json", "r") as f_o:
-            links = json.load(f_o)
-            links[user_link] = str(user_id)
-        with open("invited_links.json", "w") as f_o:
-            json.dump(links, f_o, indent=4, ensure_ascii=False)
-        with open("users.json", "r") as f_o:
-            users = json.load(f_o)
-        with open("users.json", "w") as f_o:
-            users[str(user_id)]["referal_link"] = user_link
-            json.dump(users, f_o, indent=4, ensure_ascii=False)
-        return user_link
-    raise Exception("Smth went wrong due to generation referal link. Generated data: ", generated_link_data)
+def get_referal_link(user_id):
+    user = get_user(user_id)
+    referal_link = user.referal_link
+    if referal_link is not None:
+        return referal_link
+    else:
+        generated_link_data = bot.tg_client.generate_invite_link(chat_id=MAIN_CHAT_ID)
+        referal_link = generated_link_data.get("result").get("invite_link")
+        user.referal_link = referal_link
+        user.save()
 
 
 @bot.message_handler(commands=["give_me_referal_link"])
 def give_me_referal_link(message):
-    referal_link = get_referal_link_from_db(message.from_user.id)
+    referal_link = get_referal_link(message.from_user.id)
     bot.reply_to(message, text=f"Вот твоя реферальная ссылка: {referal_link}")
 
 

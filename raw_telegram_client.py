@@ -35,7 +35,7 @@ class TelegramClientRaw:
                              chat_id: str,
                              expire_date: int = None,
                              member_limit: int = None,
-                             creates_join_request: bool = None) -> str:
+                             creates_join_request: bool = None) -> dict:
 
         url = self.build_url(chat_id, expire_date, member_limit, creates_join_request)
         res = requests.get(url)
