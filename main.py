@@ -48,7 +48,16 @@ def register_new_user(user_id: int, chat_id: int) -> User:
     return user
 
 
+def check_permissions(func):
+    def inner(message: Message, *args, **kwargs):
+        if get_user(message.from_user.id).accepted_rules:
+            return func(message, *args, **kwargs)
+        bot.reply_to(message, text="Вы не приняли правила! Вы не можете этого делать!")
+    return inner
+
+
 @bot.message_handler(commands=["menu"])
+@check_permissions
 def menu_chooser_main(message: Message) -> None:
     markup = types.ReplyKeyboardMarkup(row_width=2)
     itembtn1 = types.KeyboardButton('Написать админу')
@@ -135,6 +144,7 @@ def get_referal_link(user_id: int) -> str:
 
 
 @bot.message_handler(commands=["give_me_referal_link"])
+@check_permissions
 def give_me_referal_link(message: Message) -> None:
     referal_link = get_referal_link(message.from_user.id)
     bot.reply_to(message, text=f"Вот твоя реферальная ссылка: {referal_link}")
