@@ -49,7 +49,7 @@ def register_new_user(user_id: int, chat_id: int) -> User:
 
 
 @bot.message_handler(commands=["menu"])
-def menu_chooser_main(message):
+def menu_chooser_main(message: Message) -> None:
     markup = types.ReplyKeyboardMarkup(row_width=2)
     itembtn1 = types.KeyboardButton('Написать админу')
     itembtn2 = types.KeyboardButton('Указать уровень знаний')
@@ -59,7 +59,7 @@ def menu_chooser_main(message):
     bot.register_next_step_handler(message, menu_chooser_submain)
 
 
-def menu_chooser_submain(message):
+def menu_chooser_submain(message: Message) -> None:
     answer = message.text.strip()
     if answer == 'Указать уровень знаний':
         markup = types.ReplyKeyboardMarkup(row_width=2)
@@ -79,13 +79,13 @@ def menu_chooser_submain(message):
         bot.reply_to(message, 'Что хотите написать?', reply_markup=markup)
 
 
-def write_to_admin(message):
+def write_to_admin(message: Message) -> None:
     bot.reply_to(message, "Ваше обращение зарегистрировано!")
     bot.send_message(chat_id=ADMIN_CHAT_ID, text=f"Пользователь @{message.from_user.username} оставил обращение:"
                                                  f" «{message.text.strip()}»")
 
 
-def write_knowledge_level(message):
+def write_knowledge_level(message) -> None:
     markup = types.ReplyKeyboardRemove(selective=False)
     level = message.text.strip()
     User.objects(user_id=message.from_user.id).update_one(set__level=level)
@@ -93,7 +93,7 @@ def write_knowledge_level(message):
                           "следующими статьями: ############", reply_markup=markup)
 
 
-def proceed_accept_rules_answer(message: Message):
+def proceed_accept_rules_answer(message: Message) -> None:
     markup = types.ReplyKeyboardRemove(selective=False)
     answer = message.text.strip()
     if answer == "Принимаю":
@@ -105,7 +105,7 @@ def proceed_accept_rules_answer(message: Message):
 
 
 @bot.message_handler(commands=["start"])
-def start(message: Message):
+def start(message: Message) -> None:
     user_id = message.from_user.id
     chat_id = message.chat.id
     register_new_user(user_id, chat_id)
@@ -118,7 +118,7 @@ def start(message: Message):
     bot.register_next_step_handler(message, proceed_accept_rules_answer)
 
 
-def get_referal_link(user_id):
+def get_referal_link(user_id: int) -> str:
     user = get_user(user_id)
     referal_link = user.referal_link
     if referal_link is None:
@@ -130,20 +130,20 @@ def get_referal_link(user_id):
 
 
 @bot.message_handler(commands=["give_me_referal_link"])
-def give_me_referal_link(message):
+def give_me_referal_link(message: Message) -> None:
     referal_link = get_referal_link(message.from_user.id)
     bot.reply_to(message, text=f"Вот твоя реферальная ссылка: {referal_link}")
 
 
 @bot.chat_member_handler()
-def handle_invites_via_link(message):
+def handle_invites_via_link(message: Message) -> None:
     if isinstance(message, ChatMemberUpdated):
         # todo тут сделать так, чтобы писать в логи и оповещать пользователя что ему начислили рейтинг
         User.objects(referal_link=message.invite_link.invite_link).update_one(inc__rating=1)
 
 
 @bot.message_handler(content_types=["text"])
-def bad_language_moderator(message):
+def bad_language_moderator(message: Message) -> None:
     for bad_word in BAD_WORDS:
         if bad_word.strip() in message.text:
             bot.reply_to(message, text="Не ругайся!")
