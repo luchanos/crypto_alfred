@@ -1,9 +1,9 @@
 version: "3.7"
 services:
-  db:
+  postgres_db:
     image: postgres:14.2-alpine
     volumes:
-      - db:/var/lib/postgresql/data
+      - postgres_db:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_USER=postgres
@@ -12,6 +12,15 @@ services:
       - "5432:5432"
     networks:
       - custom
+  mongo_db:
+    image: mongo
+    container_name: "mongo_db"
+    environment:
+      - MONGO_INITDB_DATABASE=crypto_alfred_db
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin
+    volumes:
+      - mongo_db:/var/lib/mongodb/data
 networks:
   custom:
     driver: bridge
