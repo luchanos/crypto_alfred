@@ -108,14 +108,19 @@ def proceed_accept_rules_answer(message: Message) -> None:
 def start(message: Message) -> None:
     user_id = message.from_user.id
     chat_id = message.chat.id
-    register_new_user(user_id, chat_id)
-    markup = types.ReplyKeyboardMarkup(row_width=2)
-    itembtn1 = types.KeyboardButton('Принимаю')
-    itembtn2 = types.KeyboardButton('Не принимаю')
-    markup.add(itembtn1, itembtn2)
-    bot.reply_to(message, """Приветствую! Ознакомьтесь с правилами чата: https://teletype.in/@coiners/Um4d1JbBAgD.
-Согласны ли вы с ними?""", reply_markup=markup)
-    bot.register_next_step_handler(message, proceed_accept_rules_answer)
+
+    # если пользователь уже был тут, но не принял правила, то надо предложить их принять
+    user = register_new_user(user_id, chat_id)
+    if user.accepted_rules:
+        menu_chooser_main(message)
+    else:
+        markup = types.ReplyKeyboardMarkup(row_width=2)
+        itembtn1 = types.KeyboardButton('Принимаю')
+        itembtn2 = types.KeyboardButton('Не принимаю')
+        markup.add(itembtn1, itembtn2)
+        bot.reply_to(message, """Приветствую! Ознакомьтесь с правилами чата: https://teletype.in/@coiners/Um4d1JbBAgD.
+    Согласны ли вы с ними?""", reply_markup=markup)
+        bot.register_next_step_handler(message, proceed_accept_rules_answer)
 
 
 def get_referal_link(user_id: int) -> str:
