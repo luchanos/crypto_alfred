@@ -29,7 +29,7 @@ with open("bad_words.txt") as f_o:
 
 tg_client = TelegramClientRaw(token=TOKEN, base_url=BASE_TG_URL)
 bot = CustomBot(token=TOKEN, tg_client=tg_client)
-connect("my_collection")
+connect("crypto_alfred_db")
 
 
 def get_user(user_id: int) -> Union[User, None]:
@@ -46,17 +46,6 @@ def register_new_user(user_id: int, chat_id: int) -> User:
     if user is None:
         user = User(user_id=user_id, chat_id=str(chat_id)).save()
     return user
-
-
-def accept_rules_by_user(bot, message, markup):
-    bot.reply_to(message, "Отлично!", reply_markup=markup)
-    user_id = str(message.from_user.id)
-    with open("users.json", "r") as f_o:
-        users = json.load(f_o)
-    user_info = users[user_id]
-    user_info["accepted_rules"] = True
-    with open("users.json", "w") as f_o:
-        json.dump(users, f_o, indent=4, ensure_ascii=False)
 
 
 @bot.message_handler(commands=["menu"])
@@ -99,22 +88,17 @@ def write_to_admin(message):
 def write_knowledge_level(message):
     markup = types.ReplyKeyboardRemove(selective=False)
     level = message.text.strip()
-    user_id = str(message.from_user.id)
+    User.objects(user_id=message.from_user.id).update_one(set__level=level)
     bot.reply_to(message, "Отлично! Для углубления своих знаний рекомендуем ознакомиться со"
                           "следующими статьями: ############", reply_markup=markup)
-    with open("users.json", "r") as f_o:
-        users = json.load(f_o)
-    user_info = users[user_id]
-    user_info["level"] = level
-    with open("users.json", "w") as f_o:
-        json.dump(users, f_o, indent=4, ensure_ascii=False)
 
 
-def proceed_accept_rules_answer(message):
+def proceed_accept_rules_answer(message: Message):
     markup = types.ReplyKeyboardRemove(selective=False)
     answer = message.text.strip()
     if answer == "Принимаю":
-        accept_rules_by_user(bot, message, markup)
+        User.objects(user_id=message.from_user.id).update_one(set__accepted_rules=True)
+        bot.reply_to(message, "Отлично!", reply_markup=markup)
         menu_chooser_main(message)
     else:
         bot.reply_to(message, "Жаль, без этого мы не сможем принять тебя в сообщество!", reply_markup=markup)
