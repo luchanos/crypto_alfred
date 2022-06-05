@@ -15,6 +15,8 @@ services:
   mongo_db:
     image: mongo
     container_name: "mongo_db"
+    ports:
+      - "27017-27019:27017-27019"
     environment:
       - MONGO_INITDB_DATABASE=crypto_alfred_db
       - MONGO_INITDB_ROOT_USERNAME=admin
@@ -25,5 +27,7 @@ networks:
   custom:
     driver: bridge
 volumes:
-  db:
+  postgres_db:
+    driver: local
+  mongo_db:
     driver: local

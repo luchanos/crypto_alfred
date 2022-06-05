@@ -29,7 +29,8 @@ with open("bad_words.txt") as f_o:
 
 tg_client = TelegramClientRaw(token=TOKEN, base_url=BASE_TG_URL)
 bot = CustomBot(token=TOKEN, tg_client=tg_client)
-connect(MONGO_DB_NAME)
+mongo_db_url = f"mongodb://admin:admin@localhost:27017/{MONGO_DB_NAME}?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false"
+connect(host=mongo_db_url)
 
 
 def get_user(user_id: int) -> Union[User, None]:
@@ -113,6 +114,22 @@ def proceed_accept_rules_answer(message: Message) -> None:
         bot.reply_to(message, "Жаль, без этого мы не сможем принять тебя в сообщество!", reply_markup=markup)
 
 
+def start_for_referals(message: Message) -> None:
+    user_id = message.from_user.id
+    chat_id = message.chat.id
+
+    # если пользователь уже был тут, но не принял правила, то надо предложить их принять
+    register_new_user(user_id, chat_id)
+    markup = types.ReplyKeyboardMarkup(row_width=2)
+    itembtn1 = types.KeyboardButton('Принимаю')
+    itembtn2 = types.KeyboardButton('Не принимаю')
+    markup.add(itembtn1, itembtn2)
+    bot.send_message(user_id, """Приветствую! Ознакомьтесь с правилами чата: https://teletype.in/@coiners/Um4d1JbBAgD.
+Согласны ли вы с ними?""", reply_markup=markup)
+    message.chat.id = message.from_user.id
+    bot.register_next_step_handler(message, proceed_accept_rules_answer)
+
+
 @bot.message_handler(commands=["start"])
 def start(message: Message) -> None:
     user_id = message.from_user.id
@@ -136,7 +153,7 @@ def get_referal_link(user_id: int) -> str:
     user = get_user(user_id)
     referal_link = user.referal_link
     if referal_link is None:
-        generated_link_data = bot.tg_client.generate_invite_link(chat_id=MAIN_CHAT_ID)
+        generated_link_data = bot.tg_client.generate_invite_link(chat_id=MAIN_CHAT_ID, creates_join_request=True)
         referal_link = generated_link_data.get("result").get("invite_link")
         user.referal_link = referal_link
         user.save()
@@ -150,9 +167,16 @@ def give_me_referal_link(message: Message) -> None:
     bot.reply_to(message, text=f"Вот твоя реферальная ссылка: {referal_link}")
 
 
+@bot.chat_join_request_handler()
+def handle_chat_request(message: Message) -> None:
+    print(1111)
+    start_for_referals(message)
+
+
 @bot.chat_member_handler()
 def handle_invites_via_link(message: Message) -> None:
     if isinstance(message, ChatMemberUpdated):
+        print(2232323)
         # todo тут сделать так, чтобы писать в логи и оповещать пользователя что ему начислили рейтинг
         User.objects(referal_link=message.invite_link.invite_link).update_one(inc__rating=1)
 
