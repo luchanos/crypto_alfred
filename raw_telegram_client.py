@@ -44,3 +44,17 @@ class TelegramClientRaw:
             return res
         raise HTTPException(f"Smth happened due to generation invite link. "
                             f"Status: {res.status_code}. Message: {res.text}")
+
+    def approve_chat_join_request(self, chat_id, user_id):
+        params = {
+            "chat_id": chat_id,
+            "user_id": user_id
+        }
+        url = f"{self.base_url}/bot{self.token}/approveChatJoinRequest?"
+        url += urllib.parse.urlencode(params)
+        res = requests.get(url)
+        if res.status_code == 200:
+            res = json.loads(res.text)
+            return res
+        raise HTTPException(f"Smth happened due to generation invite link. "
+                            f"Status: {res.status_code}. Message: {res.text}")

@@ -14,7 +14,8 @@ env = Env()
 TOKEN = env.str("TOKEN")
 ADMIN_CHAT_ID = env.str("ADMIN_CHAT_ID")
 BASE_TG_URL = env.str("TELEGRAM_BASE_URL", default="https://api.telegram.org")
-MAIN_CHAT_ID = env.str("MAIN_CHAT_ID")
+MAIN_CHAT_ID_DEV = env.str("MAIN_CHAT_ID_DEV", default=1)
+MAIN_CHAT_ID_2 = env.str("MAIN_CHAT_ID_2", default="-1001654253357")
 MONGO_DB_NAME = env.str("MONGO_DB_NAME", default="crypto_alfred_db")
 
 
@@ -114,6 +115,18 @@ def proceed_accept_rules_answer(message: Message) -> None:
         bot.reply_to(message, "Жаль, без этого мы не сможем принять тебя в сообщество!", reply_markup=markup)
 
 
+def proceed_accept_rules_answer_for_referals(message: Message) -> None:
+    markup = types.ReplyKeyboardRemove(selective=False)
+    answer = message.text.strip()
+    if answer == "Принимаю":
+        User.objects(user_id=message.from_user.id).update_one(set__accepted_rules=True)
+        bot.reply_to(message, "Отлично! Вы приняты в чат!", reply_markup=markup)
+        bot.tg_client.approve_chat_join_request(user_id=message.from_user.id, chat_id=MAIN_CHAT_ID_2)
+        menu_chooser_main(message)
+    else:
+        bot.reply_to(message, "Жаль, без этого мы не сможем принять тебя в сообщество!", reply_markup=markup)
+
+
 def start_for_referals(message: Message) -> None:
     user_id = message.from_user.id
     chat_id = message.chat.id
@@ -127,7 +140,7 @@ def start_for_referals(message: Message) -> None:
     bot.send_message(user_id, """Приветствую! Ознакомьтесь с правилами чата: https://teletype.in/@coiners/Um4d1JbBAgD.
 Согласны ли вы с ними?""", reply_markup=markup)
     message.chat.id = message.from_user.id
-    bot.register_next_step_handler(message, proceed_accept_rules_answer)
+    bot.register_next_step_handler(message, proceed_accept_rules_answer_for_referals)
 
 
 @bot.message_handler(commands=["start"])
@@ -153,7 +166,7 @@ def get_referal_link(user_id: int) -> str:
     user = get_user(user_id)
     referal_link = user.referal_link
     if referal_link is None:
-        generated_link_data = bot.tg_client.generate_invite_link(chat_id=MAIN_CHAT_ID, creates_join_request=True)
+        generated_link_data = bot.tg_client.generate_invite_link(chat_id=MAIN_CHAT_ID_2, creates_join_request=True)
         referal_link = generated_link_data.get("result").get("invite_link")
         user.referal_link = referal_link
         user.save()
@@ -169,14 +182,12 @@ def give_me_referal_link(message: Message) -> None:
 
 @bot.chat_join_request_handler()
 def handle_chat_request(message: Message) -> None:
-    print(1111)
     start_for_referals(message)
 
 
 @bot.chat_member_handler()
 def handle_invites_via_link(message: Message) -> None:
     if isinstance(message, ChatMemberUpdated):
-        print(2232323)
         # todo тут сделать так, чтобы писать в логи и оповещать пользователя что ему начислили рейтинг
         User.objects(referal_link=message.invite_link.invite_link).update_one(inc__rating=1)
 
