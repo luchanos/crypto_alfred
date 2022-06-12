@@ -1,5 +1,13 @@
 version: "3.7"
 services:
+  crypto_alfred:
+    image: luchanos/crypto_alfred:1.0.6
+    env_file:
+      - .env
+    ports:
+      - "5433:5433"
+    networks:
+      - custom
   postgres_db:
     image: postgres:14.2-alpine
     volumes:
