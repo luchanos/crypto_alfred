@@ -17,7 +17,9 @@ BASE_TG_URL = env.str("TELEGRAM_BASE_URL", default="https://api.telegram.org")
 MAIN_CHAT_ID_DEV = env.str("MAIN_CHAT_ID_DEV", default=1)
 MAIN_CHAT_ID_2 = env.str("MAIN_CHAT_ID_2", default="-1001654253357")
 MONGO_DB_NAME = env.str("MONGO_DB_NAME", default="crypto_alfred_db")
-MONGODB_SERVICE_NAME = env.str("MONGODB_SERVICE_NAME", default="mongo_db")
+MONGODB_SERVICE_NAME = env.str("MONGODB_SERVICE_NAME", default="localhost")
+MONGODB_USERNAME = env.str("MONGODB_USERNAME", default="admin")
+MONGODB_PASS = env.str("MONGODB_PASS", default="admin")
 
 
 class CustomBot(telebot.TeleBot):
@@ -31,7 +33,8 @@ with open("bad_words.txt") as f_o:
 
 tg_client = TelegramClientRaw(token=TOKEN, base_url=BASE_TG_URL)
 bot = CustomBot(token=TOKEN, tg_client=tg_client)
-mongo_db_url = f"mongodb://admin:admin@{MONGODB_SERVICE_NAME}:27017/{MONGO_DB_NAME}?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false"
+mongo_db_url = f"mongodb://{MONGODB_USERNAME}:{MONGODB_PASS}@{MONGODB_SERVICE_NAME}/{MONGO_DB_NAME}?" \
+               f"authSource=admin&readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false"
 connect(host=mongo_db_url)
 
 
