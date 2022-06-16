@@ -14,7 +14,16 @@ class TelegramClientRaw:
         self.token = token
         self.base_url = base_url
 
-    def build_url(self, chat_id: str, expire_date: int, member_limit, creates_join_request):
+    def send_message(self, chat_id: int, message: str) -> None:
+        url = f"{self.base_url}/bot{self.token}/sendMessage?chat_id={chat_id}&text={message}&parse_mode=MarkdownV2"
+        resp = requests.get(url)
+        c = 1
+
+    def send_photo(self, chat_id: int, photo) -> None:
+        url = f"{self.base_url}/bot{self.token}/sendPhoto?chat_id={chat_id}&photo={photo}"
+        requests.get(url)
+
+    def build_url(self, chat_id: str, expire_date: int, member_limit: int, creates_join_request: bool) -> str:
         uuid_id = uuid4()
         params = {
             "chat_id": chat_id,
@@ -45,7 +54,7 @@ class TelegramClientRaw:
         raise HTTPException(f"Smth happened due to generation invite link. "
                             f"Status: {res.status_code}. Message: {res.text}")
 
-    def approve_chat_join_request(self, chat_id, user_id):
+    def approve_chat_join_request(self, chat_id: int, user_id: int) -> str:
         params = {
             "chat_id": chat_id,
             "user_id": user_id
@@ -54,7 +63,6 @@ class TelegramClientRaw:
         url += urllib.parse.urlencode(params)
         res = requests.get(url)
         if res.status_code == 200:
-            res = json.loads(res.text)
-            return res
+            return json.loads(res.text)
         raise HTTPException(f"Smth happened due to generation invite link. "
                             f"Status: {res.status_code}. Message: {res.text}")

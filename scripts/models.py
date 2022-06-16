@@ -1,8 +1,12 @@
-import pydantic
-from pydantic import typing
+from pydantic import BaseModel
+from pydantic.typing import Optional
 
 
-class ExhangeData(pydantic.BaseModel):
+class ExhangeData(BaseModel):
     asset_id: str
     name: str
-    price_usd: typing.Optional[float]
+    price_usd: Optional[float]
+
+
+class ExchangeRateList(BaseModel):
+    rates: list[ExhangeData]

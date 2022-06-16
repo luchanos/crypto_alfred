@@ -1,8 +1,9 @@
 import logging
+from typing import Optional
+
 from envparse import Env
 
-from scripts.models import ExhangeData
-from scripts.settings import COINAPI_SETTINGS
+from scripts.models import ExhangeData, ExchangeRateList
 import requests
 
 env = Env()
@@ -15,28 +16,26 @@ class CoinApiClient:
         self.base_url = base_url
         self.api_key = api_key
 
-    def default_headers(self):
+    def default_headers(self) -> dict:
         return {
             "X-CoinAPI-Key": f"{self.api_key}"
         }
 
     @staticmethod
-    def proccess_response(resp):
+    def proccess_response(resp) -> dict:
         if resp.status_code == 200:
             return resp.json()
         else:
             raise Exception(f"status code in resp is not successful: {resp.status_code}")
 
-    def get_exchange_rates(self):
+    def get_exchange_rates(self, currency_list: Optional[list[str]] = None) -> ExchangeRateList:
         url = f"{self.base_url}/v1/assets"
         resp = requests.get(url=url, headers=self.default_headers())
         resp = self.proccess_response(resp)
+        rates = []
         for rate in resp:
-            current_rate = ExhangeData(**rate)
-            if current_rate.asset_id == "BTC":
-                return current_rate
-
-
-if __name__ == "__main__":
-    coin_api_client = CoinApiClient(**COINAPI_SETTINGS)
-    print(coin_api_client.get_exchange_rates())
+            for currency in currency_list:
+                current_rate = ExhangeData(**rate)
+                if current_rate.asset_id == currency:
+                    rates.append(current_rate)
+        return ExchangeRateList(rates=rates)
