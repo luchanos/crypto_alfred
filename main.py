@@ -12,13 +12,11 @@ from mongoengine import connect
 
 env = Env()
 TOKEN = env.str("TOKEN")
-ADMIN_CHAT_ID = env.str("ADMIN_CHAT_ID")
+ADMIN_CHAT_ID = env.str("ADMIN_CHAT_ID", default="362857450")
 BASE_TG_URL = env.str("TELEGRAM_BASE_URL", default="https://api.telegram.org")
-MAIN_CHAT_ID_DEV = env.str("MAIN_CHAT_ID_DEV", default="-1001654253357")
+MAIN_CHAT_ID_DEV = env.str("MAIN_CHAT_ID_DEV", default="-1001590701371")
 MONGO_DB_NAME = env.str("MONGO_DB_NAME", default="crypto_alfred_db")
-MONGODB_SERVICE_NAME = env.str("MONGODB_SERVICE_NAME", default="localhost")
-MONGODB_USERNAME = env.str("MONGODB_USERNAME", default="admin")
-MONGODB_PASS = env.str("MONGODB_PASS", default="admin")
+MONGODB_URL = env.str("MONGODB_URL", default="mongodb://0.0.0.0:27017")
 
 
 class CustomBot(telebot.TeleBot):
@@ -32,8 +30,8 @@ with open("bad_words.txt") as f_o:
 
 tg_client = TelegramClientRaw(token=TOKEN, base_url=BASE_TG_URL)
 bot = CustomBot(token=TOKEN, tg_client=tg_client)
-mongo_db_url = f"mongodb://{MONGODB_USERNAME}:{MONGODB_PASS}@{MONGODB_SERVICE_NAME}/{MONGO_DB_NAME}?" \
-               f"authSource=admin&readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false"
+mongo_db_url = f"{MONGODB_URL}/{MONGO_DB_NAME}?authSource=admin&readPreference=primary" \
+               f"&appname=MongoDB%20Compass&directConnection=true&ssl=false"
 connect(host=mongo_db_url)
 
 
@@ -135,7 +133,7 @@ def start_for_referals(message: Message) -> None:
     chat_id = message.chat.id
 
     # если пользователь уже был тут, но не принял правила, то надо предложить их принять
-    register_new_user(user_id, chat_id)
+    register_new_user(user_id, user_id)
     markup = types.ReplyKeyboardMarkup(row_width=2)
     itembtn1 = types.KeyboardButton('Принимаю')
     itembtn2 = types.KeyboardButton('Не принимаю')
@@ -166,22 +164,22 @@ def start(message: Message) -> None:
         bot.register_next_step_handler(message, proceed_accept_rules_answer)
 
 
-def get_referal_link(user_id: int) -> str:
+def get_referral_link(user_id: int) -> str:
     user = get_user(user_id)
-    referal_link = user.referal_link
-    if referal_link is None:
+    referral_link = user.referral_link
+    if referral_link is None:
         generated_link_data = bot.tg_client.generate_invite_link(chat_id=MAIN_CHAT_ID_DEV, creates_join_request=True)
-        referal_link = generated_link_data.get("result").get("invite_link")
-        user.referal_link = referal_link
+        referral_link = generated_link_data.get("result").get("invite_link")
+        user.referral_link = referral_link
         user.save()
-    return referal_link
+    return referral_link
 
 
-@bot.message_handler(commands=["give_me_referal_link"])
+@bot.message_handler(commands=["give_me_referral_link"])
 @check_permissions
-def give_me_referal_link(message: Message) -> None:
-    referal_link = get_referal_link(message.from_user.id)
-    bot.reply_to(message, text=f"Вот твоя реферальная ссылка: {referal_link}")
+def give_me_referral_link(message: Message) -> None:
+    referral_link = get_referral_link(message.from_user.id)
+    bot.reply_to(message, text=f"Вот твоя реферальная ссылка: {referral_link}")
 
 
 @bot.chat_join_request_handler()
@@ -193,7 +191,7 @@ def handle_chat_request(message: Message) -> None:
 def handle_invites_via_link(message: Message) -> None:
     if isinstance(message, ChatMemberUpdated):
         # todo тут сделать так, чтобы писать в логи и оповещать пользователя что ему начислили рейтинг
-        User.objects(referal_link=message.invite_link.invite_link).update_one(inc__rating=1)
+        User.objects(referral_link=message.invite_link.invite_link).update_one(inc__rating=1)
 
 
 @bot.message_handler(content_types=["text"])

@@ -6,6 +6,6 @@ class User(Document):
     status = StringField(default="Mr. Andersen")
     accepted_rules = BooleanField(default=False)
     chat_id = StringField(required=True, unique=True)
-    referal_link = StringField(unique=True, sparse=True)
+    referral_link = StringField(unique=True, sparse=True)
     level = StringField()
     rating = IntField(default=0)
