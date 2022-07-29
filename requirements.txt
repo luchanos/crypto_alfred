@@ -1,4 +1,0 @@
-pyTelegramBotAPI==4.5.0
-envparse==0.2.0
-mongoengine==0.24.1
-pyTelegramBotAPI==4.5.0
