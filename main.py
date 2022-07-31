@@ -2,13 +2,13 @@ from typing import Union
 
 import telebot
 from envparse import Env
-from mongoengine import DoesNotExist
-from telebot.types import Message, ChatMemberUpdated
+from mongoengine import DoesNotExist, connect
 from telebot import types, util
+from telebot.types import ChatMemberUpdated, Message
 
 from mongo_models import User
 from raw_telegram_client import TelegramClientRaw
-from mongoengine import connect
+
 
 env = Env()
 TOKEN = env.str("TOKEN")
@@ -30,8 +30,10 @@ with open("bad_words.txt") as f_o:
 
 tg_client = TelegramClientRaw(token=TOKEN, base_url=BASE_TG_URL)
 bot = CustomBot(token=TOKEN, tg_client=tg_client)
-mongo_db_url = f"{MONGODB_URL}/{MONGO_DB_NAME}?authSource=admin&readPreference=primary" \
-               f"&appname=MongoDB%20Compass&directConnection=true&ssl=false"
+mongo_db_url = (
+    f"{MONGODB_URL}/{MONGO_DB_NAME}?authSource=admin&readPreference=primary"
+    f"&appname=MongoDB%20Compass&directConnection=true&ssl=false"
+)
 connect(host=mongo_db_url)
 
 
@@ -56,6 +58,7 @@ def check_permissions(func):
         if get_user(message.from_user.id).accepted_rules:
             return func(message, *args, **kwargs)
         bot.reply_to(message, text="Вы не приняли правила! Вы не можете этого делать!")
+
     return inner
 
 
@@ -63,46 +66,51 @@ def check_permissions(func):
 @check_permissions
 def menu_chooser_main(message: Message) -> None:
     markup = types.ReplyKeyboardMarkup(row_width=2)
-    itembtn1 = types.KeyboardButton('Написать админу')
-    itembtn2 = types.KeyboardButton('Указать уровень знаний')
-    itembtn3 = types.KeyboardButton('Ознакомиться с рейтинговой системой')
+    itembtn1 = types.KeyboardButton("Написать админу")
+    itembtn2 = types.KeyboardButton("Указать уровень знаний")
+    itembtn3 = types.KeyboardButton("Ознакомиться с рейтинговой системой")
     markup.add(itembtn1, itembtn2, itembtn3)
-    bot.send_message(message.chat.id, 'Добро пожаловать в меню', reply_markup=markup)
+    bot.send_message(message.chat.id, "Добро пожаловать в меню", reply_markup=markup)
     bot.register_next_step_handler(message, menu_chooser_submain)
 
 
 def menu_chooser_submain(message: Message) -> None:
     answer = message.text.strip()
-    if answer == 'Указать уровень знаний':
+    if answer == "Указать уровень знаний":
         markup = types.ReplyKeyboardMarkup(row_width=2)
-        itembtn1 = types.KeyboardButton('Новичок')
-        itembtn2 = types.KeyboardButton('Середнячок')
-        itembtn3 = types.KeyboardButton('Профи')
-        itembtn4 = types.KeyboardButton('Бог')
+        itembtn1 = types.KeyboardButton("Новичок")
+        itembtn2 = types.KeyboardButton("Середнячок")
+        itembtn3 = types.KeyboardButton("Профи")
+        itembtn4 = types.KeyboardButton("Бог")
         markup.add(itembtn1, itembtn2, itembtn3, itembtn4)
-        bot.reply_to(message, 'Укажите свой уровень знаний', reply_markup=markup)
+        bot.reply_to(message, "Укажите свой уровень знаний", reply_markup=markup)
         bot.register_next_step_handler(message, write_knowledge_level)
-    elif answer == 'Ознакомиться с рейтинговой системой':
+    elif answer == "Ознакомиться с рейтинговой системой":
         markup = types.ReplyKeyboardRemove(selective=False)
-        bot.reply_to(message, 'Вот наша рейтинговая система: ############', reply_markup=markup)
-    elif answer == 'Написать админу':
+        bot.reply_to(message, "Вот наша рейтинговая система: ############", reply_markup=markup)
+    elif answer == "Написать админу":
         markup = types.ReplyKeyboardRemove(selective=False)
         bot.register_next_step_handler(message, write_to_admin)
-        bot.reply_to(message, 'Что хотите написать?', reply_markup=markup)
+        bot.reply_to(message, "Что хотите написать?", reply_markup=markup)
 
 
 def write_to_admin(message: Message) -> None:
     bot.reply_to(message, "Ваше обращение зарегистрировано!")
-    bot.send_message(chat_id=ADMIN_CHAT_ID, text=f"Пользователь @{message.from_user.username} оставил обращение:"
-                                                 f" «{message.text.strip()}»")
+    bot.send_message(
+        chat_id=ADMIN_CHAT_ID,
+        text=f"Пользователь @{message.from_user.username} оставил обращение:" f" «{message.text.strip()}»",
+    )
 
 
 def write_knowledge_level(message) -> None:
     markup = types.ReplyKeyboardRemove(selective=False)
     level = message.text.strip()
     User.objects(user_id=message.from_user.id).update_one(set__level=level)
-    bot.reply_to(message, "Отлично! Для углубления своих знаний рекомендуем ознакомиться со"
-                          "следующими статьями: ############", reply_markup=markup)
+    bot.reply_to(
+        message,
+        "Отлично! Для углубления своих знаний рекомендуем ознакомиться со" "следующими статьями: ############",
+        reply_markup=markup,
+    )
 
 
 def proceed_accept_rules_answer(message: Message) -> None:
@@ -135,11 +143,15 @@ def start_for_referals(message: Message) -> None:
     # если пользователь уже был тут, но не принял правила, то надо предложить их принять
     register_new_user(user_id, user_id)
     markup = types.ReplyKeyboardMarkup(row_width=2)
-    itembtn1 = types.KeyboardButton('Принимаю')
-    itembtn2 = types.KeyboardButton('Не принимаю')
+    itembtn1 = types.KeyboardButton("Принимаю")
+    itembtn2 = types.KeyboardButton("Не принимаю")
     markup.add(itembtn1, itembtn2)
-    bot.send_message(user_id, """Приветствую! Ознакомьтесь с правилами чата: https://teletype.in/@coiners/Um4d1JbBAgD.
-Согласны ли вы с ними?""", reply_markup=markup)
+    bot.send_message(
+        user_id,
+        """Приветствую! Ознакомьтесь с правилами чата: https://teletype.in/@coiners/Um4d1JbBAgD.
+Согласны ли вы с ними?""",
+        reply_markup=markup,
+    )
     message.chat.id = message.from_user.id
     bot.register_next_step_handler(message, proceed_accept_rules_answer_for_referals)
 
@@ -156,11 +168,15 @@ def start(message: Message) -> None:
         menu_chooser_main(message)
     else:
         markup = types.ReplyKeyboardMarkup(row_width=2)
-        itembtn1 = types.KeyboardButton('Принимаю')
-        itembtn2 = types.KeyboardButton('Не принимаю')
+        itembtn1 = types.KeyboardButton("Принимаю")
+        itembtn2 = types.KeyboardButton("Не принимаю")
         markup.add(itembtn1, itembtn2)
-        bot.reply_to(message, """Приветствую! Ознакомьтесь с правилами чата: https://teletype.in/@coiners/Um4d1JbBAgD.
-    Согласны ли вы с ними?""", reply_markup=markup)
+        bot.reply_to(
+            message,
+            """Приветствую! Ознакомьтесь с правилами чата: https://teletype.in/@coiners/Um4d1JbBAgD.
+    Согласны ли вы с ними?""",
+            reply_markup=markup,
+        )
         bot.register_next_step_handler(message, proceed_accept_rules_answer)
 
 
@@ -168,7 +184,9 @@ def get_referral_link(user_id: int) -> str:
     user = get_user(user_id)
     referral_link = user.referral_link
     if referral_link is None:
-        generated_link_data = bot.tg_client.generate_invite_link(chat_id=MAIN_CHAT_ID_DEV, creates_join_request=True)
+        generated_link_data = bot.tg_client.generate_invite_link(
+            chat_id=MAIN_CHAT_ID_DEV, creates_join_request=True
+        )
         referral_link = generated_link_data.get("result").get("invite_link")
         user.referral_link = referral_link
         user.save()

@@ -1,10 +1,11 @@
 import logging
 from typing import Optional
 
+import requests
 from envparse import Env
 
-from scripts.models import ExhangeData, ExchangeRateList
-import requests
+from scripts.models import ExchangeRateList, ExhangeData
+
 
 env = Env()
 
@@ -17,9 +18,7 @@ class CoinApiClient:
         self.api_key = api_key
 
     def default_headers(self) -> dict:
-        return {
-            "X-CoinAPI-Key": f"{self.api_key}"
-        }
+        return {"X-CoinAPI-Key": f"{self.api_key}"}
 
     @staticmethod
     def proccess_response(resp) -> dict:

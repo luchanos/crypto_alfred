@@ -1,10 +1,11 @@
+import json
+import urllib.parse
 from http.client import HTTPException
+from logging import getLogger
+from uuid import uuid4
 
 import requests
-from uuid import uuid4
-from logging import getLogger
-import urllib.parse
-import json
+
 
 logger = getLogger(__name__)
 
@@ -25,10 +26,7 @@ class TelegramClientRaw:
 
     def build_url(self, chat_id: str, expire_date: int, member_limit: int, creates_join_request: bool) -> str:
         uuid_id = uuid4()
-        params = {
-            "chat_id": chat_id,
-            "name": uuid_id
-        }
+        params = {"chat_id": chat_id, "name": uuid_id}
         if expire_date is not None:
             params["expire_date"] = expire_date
         if member_limit is not None:
@@ -40,29 +38,26 @@ class TelegramClientRaw:
         url += urllib.parse.urlencode(params)
         return url
 
-    def generate_invite_link(self,
-                             chat_id: str,
-                             expire_date: int = None,
-                             member_limit: int = None,
-                             creates_join_request: bool = None) -> dict:
+    def generate_invite_link(
+        self, chat_id: str, expire_date: int = None, member_limit: int = None, creates_join_request: bool = None
+    ) -> dict:
 
         url = self.build_url(chat_id, expire_date, member_limit, creates_join_request)
         res = requests.get(url)
         if res.status_code == 200:
             res = json.loads(res.text)
             return res
-        raise HTTPException(f"Smth happened due to generation invite link. "
-                            f"Status: {res.status_code}. Message: {res.text}")
+        raise HTTPException(
+            f"Smth happened due to generation invite link. " f"Status: {res.status_code}. Message: {res.text}"
+        )
 
     def approve_chat_join_request(self, chat_id: int, user_id: int) -> str:
-        params = {
-            "chat_id": chat_id,
-            "user_id": user_id
-        }
+        params = {"chat_id": chat_id, "user_id": user_id}
         url = f"{self.base_url}/bot{self.token}/approveChatJoinRequest?"
         url += urllib.parse.urlencode(params)
         res = requests.get(url)
         if res.status_code == 200:
             return json.loads(res.text)
-        raise HTTPException(f"Smth happened due to generation invite link. "
-                            f"Status: {res.status_code}. Message: {res.text}")
+        raise HTTPException(
+            f"Smth happened due to generation invite link. " f"Status: {res.status_code}. Message: {res.text}"
+        )

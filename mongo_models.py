@@ -1,4 +1,4 @@
-from mongoengine import StringField, IntField, BooleanField, Document
+from mongoengine import BooleanField, Document, IntField, StringField
 
 
 class User(Document):
