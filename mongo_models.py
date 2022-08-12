@@ -9,3 +9,4 @@ class User(Document):
     referral_link = StringField(unique=True, sparse=True)
     level = StringField()
     rating = IntField(default=0)
+    is_deleted = BooleanField(default=False)
