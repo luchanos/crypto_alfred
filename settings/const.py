@@ -1,0 +1,4 @@
+from .base import env
+
+
+REFERRAL_COUNT_FOR_COMMON_RATING = env.int("REFERRAL_COUNT_FOR_COMMON_RATING", default=10)
