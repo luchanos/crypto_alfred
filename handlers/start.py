@@ -45,7 +45,7 @@ async def accept_rules_state(message: types.Message, state: FSMContext):
         await state.reset_state()
     elif message.text == "Не принимаю":
         await message.answer(
-            "Очень жаль 😓\nБез принятия условия мы не сможем принять тебя в сообщество !",
+            "Очень жаль 😓\nБез принятия условий мы не сможем принять тебя в сообщество !",
             reply_markup=accept_rules_keyboard,
         )
 

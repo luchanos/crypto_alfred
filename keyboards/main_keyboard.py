@@ -8,5 +8,6 @@ b2 = KeyboardButton("Справка ❓")
 b3 = KeyboardButton("Реферальная ссылка 🤝")
 b4 = KeyboardButton("Мой кошелек 💰")
 b5 = KeyboardButton("Поделиться рейтингом 💸")
+b6 = KeyboardButton("Курсы валют 💲")
 
-main_keyboard.row(b4, b5).row(b1, b2).add(b3)
+main_keyboard.row(b4, b5).row(b1, b2).row(b3, b6)

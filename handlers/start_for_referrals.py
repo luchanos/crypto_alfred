@@ -42,7 +42,7 @@ async def accept_rules_referral(message: types.Message):
             await message.bot.approve_chat_join_request(user_id=message.from_user.id, chat_id=CHAT_ID_GROUP)
         elif message.text == "Не принимаю":
             await message.answer(
-                text="Очень жаль 😓\nБез принятия условия мы не сможем принять тебя в сообщество !",
+                text="Очень жаль 😓\nБез принятия условий мы не сможем принять тебя в сообщество !",
                 reply_markup=accept_rules_keyboard,
             )
 
