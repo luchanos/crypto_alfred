@@ -22,15 +22,16 @@ async def new_chat_member(message: types.ChatMemberUpdated):
             if res.get("user_id"):
                 await message.bot.send_message(
                     chat_id=res.get("user_id"),
-                    text=f"Вам начислено {REFERRAL_COUNT_FOR_COMMON_RATING} очков рейтинга за приглашенного друга 💪",
+                    text=f"You have been awarded by {REFERRAL_COUNT_FOR_COMMON_RATING} "
+                    f"rating points for an invited friend 💪",
                 )
         else:
             user_with_referral_link = await get_user_by_referral_link(invite_link)
             if user_with_referral_link.get("user_id"):
                 await message.bot.send_message(
                     chat_id=user_with_referral_link.get("user_id"),
-                    text=f"К сожалению, мы не можем начислить вам рейтинг, так как ваш "
-                    f"приглашенный друг уже состоял в нашей группе 😢",
+                    text=f"Unfortunately, we can't rate you with points, As your "
+                    f"invited friend was already in our group 😢",
                 )
         await message.bot.promote_chat_member(
             CHAT_ID_GROUP, message.new_chat_member.user.id, can_pin_messages=True
@@ -46,8 +47,8 @@ async def new_chat_member(message: types.ChatMemberUpdated):
         await delete_user(message.new_chat_member.user.id)
         await message.bot.send_message(
             chat_id=message.from_user.id,
-            text="Очень жаль, что вы покинули группу 😢\nВ любое время вы можете попросить снова вступить в группу. "
-            "Ваш рейтинг при этом сохраниться !",
+            text="So sad, that you left the group 😢\nAt any time, you can "
+            "ask to join the group. Your rating will be saved!",
             reply_markup=is_delete_user,
         )
 

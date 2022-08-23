@@ -15,8 +15,8 @@ async def start_for_referrals(message: types.ChatJoinRequest):
         try:
             await message.bot.send_message(
                 chat_id=message.from_user.id,
-                text="Здравствуйте! Прежде чем вступить в группу, ознакомьтесь, пожалуйста, с правилами чата. "
-                "Согласны ли вы с ними?\n\nhttps://teletype.in/@coiners/Um4d1JbBAgD.",
+                text="Hello! Before joining the group, please read the chat rules. Do you "
+                "agree with them?\n\nhttps://teletype.in/@coiners/Um4d1JbBAgD.",
                 reply_markup=accept_rules_keyboard,
             )
             break
@@ -28,7 +28,7 @@ async def start_for_referrals(message: types.ChatJoinRequest):
 async def accept_rules_referral(message: types.Message):
     user = await get_user(message.from_user.id)
     if not user:
-        if message.text == "Принимаю":
+        if message.text == "I accept":
             user_id = message.from_user.id
             chat_id = message.chat.id
             username = message.from_user.username
@@ -38,15 +38,16 @@ async def accept_rules_referral(message: types.Message):
                 await recreate_user(user_id)
             else:
                 await register_new_user(user_id, chat_id, username, first_name, last_name)
-            await message.answer(text="Отлично ! Добро пожаловать в чат !", reply_markup=main_keyboard)
+            await message.answer(text="Excellent! Welcome to chat!", reply_markup=main_keyboard)
             await message.bot.approve_chat_join_request(user_id=message.from_user.id, chat_id=CHAT_ID_GROUP)
-        elif message.text == "Не принимаю":
+        elif message.text == "Do not accept":
             await message.answer(
-                text="Очень жаль 😓\nБез принятия условий мы не сможем принять тебя в сообщество !",
+                text="Unfortunately! 😓\nWithout accepting the terms, we "
+                "will not be able to accept you into the community!",
                 reply_markup=accept_rules_keyboard,
             )
 
 
 def register_handlers_start_for_referrals(dp: Dispatcher):
     dp.register_chat_join_request_handler(start_for_referrals)
-    dp.register_message_handler(accept_rules_referral, Text(equals=("Принимаю", "Не принимаю", "/start")))
+    dp.register_message_handler(accept_rules_referral, Text(equals=("I accept", "Do not accept", "/start")))

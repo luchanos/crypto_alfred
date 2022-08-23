@@ -15,18 +15,18 @@ class FormAcceptRules(StatesGroup):
 async def start(message: types.Message) -> None:
     user = await get_user(message.from_user.id)
     if user and user.get("accept_rules"):
-        await message.answer("И снова Здравствуйте 👋 Что хочешь сделать ?", reply_markup=main_keyboard)
+        await message.answer("Hello again 👋 What do you want to do?", reply_markup=main_keyboard)
     else:
         await FormAcceptRules.accept_rules.set()
         await message.answer(
-            text="Приветствую! Ознакомьтесь с правилами чата. Согласны ли вы с ними?\n"
+            text="Greetings! Check out the chat rules. Do you agree with them?\n"
             "https://teletype.in/@coiners/Um4d1JbBAgD.",
             reply_markup=accept_rules_keyboard,
         )
 
 
 async def accept_rules_state(message: types.Message, state: FSMContext):
-    if message.text == "Принимаю":
+    if message.text == "I accept":
         user_id = message.from_user.id
         chat_id = message.chat.id
         username = message.from_user.username
@@ -37,15 +37,15 @@ async def accept_rules_state(message: types.Message, state: FSMContext):
         else:
             await register_new_user(user_id, chat_id, username, first_name, last_name)
         await message.answer(
-            f"Отлично!\nВот ссылка на вступление в группу {await create_invite_link(message)}\n\n"
-            f"Ты всегда можешь ознакомиться с нашей реферальной системой, написать админу или запросить "
-            f"реферальную ссылку, чтобы пригласить друга и заработать себе рейтинг 😎",
+            f"Excellent!\nHere is the link to join the group: {await create_invite_link(message)}\n\n"
+            f"You can always get acquainted with our referral system, write to the admin, or request "
+            f"a referral link to invite a friend and earn yourself a rating 😎",
             reply_markup=main_keyboard,
         )
         await state.reset_state()
-    elif message.text == "Не принимаю":
+    elif message.text == "Do not Accept":
         await message.answer(
-            "Очень жаль 😓\nБез принятия условий мы не сможем принять тебя в сообщество !",
+            "Unfortunately! 😓\nWithout accepting the terms, we will not be able to accept you into the community!",
             reply_markup=accept_rules_keyboard,
         )
 
@@ -53,4 +53,4 @@ async def accept_rules_state(message: types.Message, state: FSMContext):
 def register_handlers_start(dp: Dispatcher):
     dp.register_message_handler(start, commands=["start"])
     dp.register_message_handler(accept_rules_state, content_types=["text"], state=FormAcceptRules.accept_rules)
-    dp.register_message_handler(start, Text(equals=f"Присоединиться к группе 🤑"))
+    dp.register_message_handler(start, Text(equals=f"Join the group 🤑"))
