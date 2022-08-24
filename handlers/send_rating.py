@@ -52,7 +52,7 @@ async def process_wallet(message: Message, state: FSMContext):
 
 
 async def process_rating_value_invalid_zero(message: Message):
-    await message.answer(text="Введите сумму не меньше 1", reply_markup=stop_send_rating_keyboard)
+    await message.answer(text="Enter an amount no less than 1", reply_markup=stop_send_rating_keyboard)
 
 
 async def process_rating_value_invalid(message: Message):
@@ -83,13 +83,16 @@ async def sure_send(message: Message, state: FSMContext):
         to_user = data["wallet"]
         amount = data["amount"]
         res = await send_rating_to_user(from_user, to_user, amount)
+
         if res.get("Success"):
             await message.answer(text=f"Success!", reply_markup=main_keyboard)
-            await message.bot.send_message(chat_id=to_user, text=f"Вам перевели {amount} очков рейтинга")
+            await message.bot.send_message(chat_id=to_user, text=f"You have received {amount} rating points")
+
         elif res.get("detail") == f"User {from_user} has no sufficient rating on deposit":
-            await message.answer(text="У вас не достаточно рейтинга для перевода!", reply_markup=main_keyboard)
+            await message.answer(text="You don't have enough rating for transfer!", reply_markup=main_keyboard)
+
         elif res.get("detail") == f"User with user_id {to_user} not found":
-            await message.answer(text="Номер кошелька не найден!", reply_markup=main_keyboard)
+            await message.answer(text="Wallet number not found!", reply_markup=main_keyboard)
 
     await state.finish()
 
