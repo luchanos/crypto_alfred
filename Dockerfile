@@ -1,5 +1,7 @@
-FROM python:3.9.12-slim-buster
-WORKDIR /
-COPY pyproject.toml poetry.lock
-RUN poetry config virtualenvs.create false && poetry install --no-root
-CMD ["python", "main.py"]
+FROM python:3.9-slim-buster
+COPY . .
+WORKDIR .
+RUN python3 -m pip install -r requirements.txt
+RUN python3 -m pip install connectors-0.1.0.tar.gz
+EXPOSE 5000
+CMD ["python3", "main.py"]
