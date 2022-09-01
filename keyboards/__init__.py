@@ -3,5 +3,6 @@ from keyboards.accept_rules_keyboard import accept_rules_keyboard
 from keyboards.confirmation_send_rating_keyboard import confirmation_send_rating_keyboard
 from keyboards.is_delete_user_keyboard import is_delete_user
 from keyboards.main_keyboard import main_keyboard
+from keyboards.set_lang_keyboard import set_lang_keyboard
 from keyboards.stop_send_rating_keyboard import stop_send_rating_keyboard
 from keyboards.write_to_admin_keyboard import write_to_admin_keyboard

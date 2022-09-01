@@ -1,7 +1,11 @@
 from aiogram.types import KeyboardButton, ReplyKeyboardMarkup
 
+from setup_bot import _
 
-b1 = KeyboardButton("Cancel 🔙")
 
-write_to_admin_keyboard = ReplyKeyboardMarkup(resize_keyboard=True)
-write_to_admin_keyboard.row(b1)
+def write_to_admin_keyboard():
+    b1 = KeyboardButton(_("Cancel 🔙"))
+
+    keyboard = ReplyKeyboardMarkup(resize_keyboard=True)
+    keyboard.row(b1)
+    return keyboard

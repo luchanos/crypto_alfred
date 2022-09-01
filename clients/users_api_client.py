@@ -16,6 +16,10 @@ async def is_deleted_user(user_id: int):
     return False if user.get("detail") else True
 
 
+async def get_deleted_user(user_id: int):
+    return await bot.users_api_client.get_deleted_user(user_id)
+
+
 async def recreate_user(user_id: int):
     await bot.users_api_client.recreate_user(user_id)
 
