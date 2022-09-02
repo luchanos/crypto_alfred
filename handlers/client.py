@@ -1,7 +1,7 @@
 from aiogram import Dispatcher, types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
-from aiogram.dispatcher.filters.state import StatesGroup, State
+from aiogram.dispatcher.filters.state import State, StatesGroup
 
 from clients.tg_client import get_referral_link
 from clients.users_api_client import update_lang
@@ -54,9 +54,8 @@ async def set_lang(message: types.Message, state: FSMContext):
 
 def register_handlers_client(dp: Dispatcher):
     dp.register_message_handler(
-        write_to_admin, Text(
-            equals=["Write to administration ✍️", "Написать администратору ✍️", "წერილი ადმინისტრაციას ✍️"]
-        )
+        write_to_admin,
+        Text(equals=["Write to administration ✍️", "Написать администратору ✍️", "წერილი ადმინისტრაციას ✍️"]),
     )
     dp.register_message_handler(
         give_referral_link, Text(equals=["Referral link 🤝", "Реферальная ссылка 🤝", "რეფერალური ბმული 🤝"])

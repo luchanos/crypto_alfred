@@ -1,6 +1,6 @@
 from typing import Any, Optional, Tuple
 
-from aiogram import Bot, Dispatcher, types
+from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.middlewares.i18n import I18nMiddleware
 from connectors.coin_api import CoinApiClient

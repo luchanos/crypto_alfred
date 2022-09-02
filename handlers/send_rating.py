@@ -132,9 +132,7 @@ async def cancel_handler(message: Message, state: FSMContext):
 def register_handlers_send_rating(dp: Dispatcher):
     dp.register_message_handler(my_wallet, Text(equals=["My wallet 💰", "Мой кошелек 💰", "ჩემი საფულე 💰"]))
 
-    dp.register_message_handler(
-        send_rating, Text(equals=["Send 💸", "Отправить 💸", "გადარიცხვა 💸"])
-    )
+    dp.register_message_handler(send_rating, Text(equals=["Send 💸", "Отправить 💸", "გადარიცხვა 💸"]))
 
     dp.register_message_handler(
         cancel_handler, Text(equals=["Cancel ❌", "Отмена ❌", "გაუქმება ❌"], ignore_case=True), state="*"
