@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-09-02 21:37+0300\n"
+"POT-Creation-Date: 2022-09-02 22:19+0300\n"
 "PO-Revision-Date: 2022-08-31 16:50+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -27,7 +27,7 @@ msgstr "Что хотите написать ?"
 msgid "Ok, back to main menu"
 msgstr "Ок, возврат в главное меню"
 
-#: handlers/client.py:30
+#: handlers/client.py:32
 msgid ""
 "Here is your referral link:\n"
 "{link}\n"
@@ -36,21 +36,25 @@ msgstr ""
 "Вот твоя реферальная ссылка: {link}\n"
 "Отправь ее своему другу 😎"
 
-#: handlers/client.py:37
+#: handlers/client.py:39
 msgid "Choose language"
 msgstr "Выберите язык"
 
 #: handlers/join_to_group.py:31
-msgid "You have been awarded by {count} rating points for an invited friend {username}💪"
+msgid ""
+"You have been awarded by {count} rating points for an invited friend "
+"{username}💪"
 msgstr "Вам начислено {count} очков рейтинга за приглашенного друга {username}💪"
 
 #: handlers/join_to_group.py:42
 msgid ""
-"Unfortunately, we can't rate you with points, As your invited friend {username}was already in our group 😢"
-msgstr "К сожалению, мы не можем начислить вам рейтинг, так как ваш "
-"приглашенный друг {username}уже состоял в нашей группе 😢"
+"Unfortunately, we can't rate you with points, As your invited friend "
+"{username}was already in our group 😢"
+msgstr ""
+"К сожалению, мы не можем начислить вам рейтинг, так как ваш приглашенный "
+"друг {username}уже состоял в нашей группе 😢"
 
-#: handlers/join_to_group.py:62
+#: handlers/join_to_group.py:64
 msgid ""
 "So sad, that you left the group 😢\n"
 "At any time, you can ask to join the group. Your rating will be saved!"

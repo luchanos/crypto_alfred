@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-09-02 21:37+0300\n"
+"POT-Creation-Date: 2022-09-02 22:19+0300\n"
 "PO-Revision-Date: 2022-08-31 18:01+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ka\n"
@@ -26,7 +26,7 @@ msgstr "რისი დაწერა გსურთ?"
 msgid "Ok, back to main menu"
 msgstr "კარგი, დაბრუნება მთავარ მენიუში"
 
-#: handlers/client.py:30
+#: handlers/client.py:32
 msgid ""
 "Here is your referral link:\n"
 "{link}\n"
@@ -35,21 +35,25 @@ msgstr ""
 "თქვენი რეფერალური სისტემა: {link}\n"
 "გაუგზავნეთ თქვენს მეგობარს 😎"
 
-#: handlers/client.py:37
+#: handlers/client.py:39
 msgid "Choose language"
 msgstr "ამოირჩიეთ ენა"
 
 #: handlers/join_to_group.py:31
-msgid "You have been awarded by {count} rating points for an invited friend {username}💪"
+msgid ""
+"You have been awarded by {count} rating points for an invited friend "
+"{username}💪"
 msgstr "თქვენ დაგერიცხათ {count} სარეიტინგო ქულა მეგობრის მოწვევისთვის {username}💪"
 
 #: handlers/join_to_group.py:42
 msgid ""
-"Unfortunately, we can't rate you with points, As your invited friend {username}was already in our group 😢"
+"Unfortunately, we can't rate you with points, As your invited friend "
+"{username}was already in our group 😢"
 msgstr ""
-"სამწუხაროდ, ვერ დაგირიცხავთ ქულას , რადგან თქვენი მოწვეული მეგობარი {username}ჩვენს ჯგუფში უკვე იმყოფებოდა. 😢"
+"სამწუხაროდ, ვერ დაგირიცხავთ ქულას , რადგან თქვენი მოწვეული მეგობარი "
+"{username}ჩვენს ჯგუფში უკვე იმყოფებოდა. 😢"
 
-#: handlers/join_to_group.py:62
+#: handlers/join_to_group.py:64
 msgid ""
 "So sad, that you left the group 😢\n"
 "At any time, you can ask to join the group. Your rating will be saved!"
@@ -229,7 +233,4 @@ msgstr "გაუქმება ❌"
 #: keyboards/write_to_admin_keyboard.py:7
 msgid "Cancel 🔙"
 msgstr "გაუქმება 🔙"
-
-#~ msgid "ვეთანხმები"
-#~ msgstr "არ ვეთანხმები"
 

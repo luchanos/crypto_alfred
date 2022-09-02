@@ -4,7 +4,7 @@ from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.filters.state import State, StatesGroup
 
 from clients.tg_client import get_referral_link
-from clients.users_api_client import update_lang
+from clients.users_api_client import get_user, update_lang
 from keyboards import set_lang_keyboard
 from keyboards.main_keyboard import main_keyboard
 from keyboards.write_to_admin_keyboard import write_to_admin_keyboard
@@ -24,12 +24,14 @@ async def back_to_main(message: types.Message):
 
 
 async def give_referral_link(message: types.Message):
-    link = await get_referral_link(message)
-    if link:
-        await message.answer(
-            _("Here is your referral link:\n{link}\nSend it to your friend 😎").format(link=link),
-            reply_markup=main_keyboard(),
-        )
+    user = await get_user(message.from_user.id)
+    if user:
+        link = await get_referral_link(message)
+        if link:
+            await message.answer(
+                _("Here is your referral link:\n{link}\nSend it to your friend 😎").format(link=link),
+                reply_markup=main_keyboard(),
+            )
 
 
 async def change_language(message: types.Message):

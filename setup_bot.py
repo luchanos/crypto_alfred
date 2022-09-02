@@ -23,7 +23,7 @@ dp = Dispatcher(bot, storage=storage)
 
 class ACLMiddleware(I18nMiddleware):
     async def get_user_locale(self, action: str, args: Tuple[Any]) -> Optional[str]:
-        if action == "pre_process_message":
+        if action == "pre_process_message" and args[0].text:
             user = await bot.users_api_client.get_user(user_id=args[0].from_user.id)
 
             if user.get("detail"):  # not found

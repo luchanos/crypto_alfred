@@ -51,9 +51,11 @@ async def new_chat_member(message: types.ChatMemberUpdated):
 
     # if user left the group
     elif status == "left":
+
         if user.get("referral_link"):
             await message.bot.revoke_chat_invite_link(CHAT_ID_GROUP, user.get("referral_link"))
-        await delete_user(message.new_chat_member.user.id)
+
+        await delete_user(user.get("user_id"))
         await message.bot.send_message(
             chat_id=message.from_user.id,
             text=_(
