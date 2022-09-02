@@ -30,16 +30,18 @@ class ACLMiddleware(I18nMiddleware):
                 deleted_user = await bot.users_api_client.get_deleted_user(user_id=args[0].from_user.id)
 
                 if deleted_user.get("detail"):  # not found
+                    # create user first
                     deleted_user = await bot.users_api_client.create_user(
                         user_id=args[0].from_user.id,
-                        chat_id=args[0].chat.id,
+                        chat_id=args[0].from_user.id,
                         username=args[0].from_user.username,
                         first_name=args[0].from_user.first_name,
                         last_name=args[0].from_user.last_name,
                         lang="en",
                     )
 
-                elif deleted_user.get("join_to_group_count") == 0:
+                # if joining for the first time
+                if deleted_user.get("join_to_group_count") == 0:
                     if args[0].text == "Русский 🇷🇺":
                         deleted_user = await bot.users_api_client.update_lang(
                             user_id=args[0].from_user.id, lang="ru"

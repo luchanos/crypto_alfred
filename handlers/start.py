@@ -16,11 +16,17 @@ class FormAcceptRules(StatesGroup):
 
 async def start(message: types.Message):
     user = await get_user(message.from_user.id)
+
     if user and user.get("accept_rules"):
         await message.answer(_("Hello again 👋 What do you want to do?"), reply_markup=main_keyboard())
     else:
         deleted_user = await get_deleted_user(message.from_user.id)
-        if deleted_user.get("join_to_group_count") > 0:
+
+        # if joining for the first time
+        if deleted_user.get("join_to_group_count") == 0:
+            await FormAcceptRules.set_lang.set()
+            await message.answer("Please, choose language", reply_markup=set_lang_keyboard())
+        else:
             await FormAcceptRules.accept_rules.set()
             await message.answer(
                 text=_(
@@ -29,20 +35,6 @@ async def start(message: types.Message):
                 ),
                 reply_markup=accept_rules_keyboard(),
             )
-        else:
-            await FormAcceptRules.set_lang.set()
-            await message.answer("Hello. Please, choose language", reply_markup=set_lang_keyboard())
-
-
-# async def start_again(message: types.Message):
-#     await FormAcceptRules.accept_rules.set()
-#     await message.answer(
-#         text=_(
-#             "Greetings! Check out the chat rules. Do you agree with them?\n"
-#             "https://teletype.in/@coiners/Um4d1JbBAgD."
-#         ),
-#         reply_markup=accept_rules_keyboard(),
-#     )
 
 
 async def set_lang(message: types.Message, state: FSMContext):
@@ -56,7 +48,7 @@ async def set_lang(message: types.Message, state: FSMContext):
     )
 
 
-async def accept_rules_state(message: types.Message, state: FSMContext):
+async def accept_rules(message: types.Message, state: FSMContext):
     if message.text in ("I accept", "Принимаю", "ვღებულობ"):
         await recreate_user(message.from_user.id)
         invite_link = await create_invite_link(message)
@@ -68,21 +60,27 @@ async def accept_rules_state(message: types.Message, state: FSMContext):
             ).format(invite_link=invite_link),
             reply_markup=main_keyboard(),
         )
+        await state.finish()
         await state.reset_state()
     elif message.text in ("Do not Accept", "Не принимаю", "არ ვღებულობ"):
         await message.answer(
             text=_(
-                "Unfortunately! 😓\nWithout accepting the terms, we will "
-                "not be able to accept you into the community!"
+                "It's a pity! 😓\nWithout accepting the terms, we will "
+                "not be able to accept you to join the community!"
             ),
             reply_markup=accept_rules_keyboard(),
         )
+    elif message.text == "/start":
+        await state.finish()
+        await start(message)
 
 
 def register_handlers_start(dp: Dispatcher):
     dp.register_message_handler(start, commands=["start"])
     dp.register_message_handler(set_lang, content_types=["text"], state=FormAcceptRules.set_lang)
-    dp.register_message_handler(accept_rules_state, content_types=["text"], state=FormAcceptRules.accept_rules)
+    dp.register_message_handler(accept_rules, content_types=["text"], state=FormAcceptRules.accept_rules)
+
     dp.register_message_handler(
-        start, Text(equals=["Join the group 🤑", "Присоединиться к группе 🤑", "ჯგუფში გაწევრიანება 🤑"])
+        start,
+        Text(equals=["Join the group 🤑", "Присоединиться к группе 🤑", "ჯგუფში გაწევრიანება 🤑"]),
     )

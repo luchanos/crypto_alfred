@@ -31,7 +31,7 @@ async def send_rating(message: Message):
 
 async def process_wallet_invalid(message: Message):
     await message.answer(
-        text=_("The wallet number can only be a number! Enter wallet number again"),
+        text=_("The wallet address can only be a numbers! Enter wallet number again"),
         reply_markup=stop_send_rating_keyboard(),
     )
 
@@ -51,7 +51,7 @@ async def process_wallet(message: Message, state: FSMContext):
     else:
         await FormSendRating.wallet.set()
         await message.answer(
-            text=_("Wallet not found! Enter the correct wallet."), reply_markup=stop_send_rating_keyboard()
+            text=_("Wallet not found! Enter the correct wallet address."), reply_markup=stop_send_rating_keyboard()
         )
 
 
@@ -100,7 +100,7 @@ async def sure_send(message: Message, state: FSMContext):
 
         elif res.get("detail") == f"User {from_user} has no sufficient rating on deposit":
             await message.answer(
-                text=_("You don't have enough rating for transfer!"), reply_markup=main_keyboard()
+                text=_("You don't have enough rating points for transfer!"), reply_markup=main_keyboard()
             )
 
         elif res.get("detail") == f"User with user_id {to_user} not found":
@@ -133,7 +133,7 @@ def register_handlers_send_rating(dp: Dispatcher):
     dp.register_message_handler(my_wallet, Text(equals=["My wallet 💰", "Мой кошелек 💰", "ჩემი საფულე 💰"]))
 
     dp.register_message_handler(
-        send_rating, Text(equals=["Share rating 💸", "Поделиться рейтингом 💸", "რეიტინგის გაზიარება 💸"])
+        send_rating, Text(equals=["Send 💸", "Отправить 💸", "გადარიცხვა 💸"])
     )
 
     dp.register_message_handler(

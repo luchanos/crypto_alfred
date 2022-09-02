@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-08-31 20:34+0300\n"
+"POT-Creation-Date: 2022-09-02 21:37+0300\n"
 "PO-Revision-Date: 2022-08-31 18:01+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ka\n"
@@ -18,19 +18,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: handlers/client.py:12
-msgid "Here is our referral system:#######"
-msgstr "ჩვენი რეფერალური სისტემა:#######"
-
-#: handlers/client.py:17
+#: handlers/client.py:19
 msgid "What do you want to write?"
 msgstr "რისი დაწერა გსურთ?"
 
-#: handlers/client.py:34 handlers/send_rating.py:123
+#: handlers/client.py:23 handlers/send_rating.py:129
 msgid "Ok, back to main menu"
 msgstr "კარგი, დაბრუნება მთავარ მენიუში"
 
-#: handlers/client.py:41
+#: handlers/client.py:30
 msgid ""
 "Here is your referral link:\n"
 "{link}\n"
@@ -39,19 +35,21 @@ msgstr ""
 "თქვენი რეფერალური სისტემა: {link}\n"
 "გაუგზავნეთ თქვენს მეგობარს 😎"
 
-#: handlers/join_to_group.py:26
-msgid "You have been awarded by {count} rating points for an invited friend 💪"
-msgstr "თქვენ დაგერიცხათ {count} სარეიტინგო ქულა მეგობრის მოწვევისთვის 💪"
+#: handlers/client.py:37
+msgid "Choose language"
+msgstr "ამოირჩიეთ ენა"
 
-#: handlers/join_to_group.py:36
+#: handlers/join_to_group.py:31
+msgid "You have been awarded by {count} rating points for an invited friend {username}💪"
+msgstr "თქვენ დაგერიცხათ {count} სარეიტინგო ქულა მეგობრის მოწვევისთვის {username}💪"
+
+#: handlers/join_to_group.py:42
 msgid ""
-"Unfortunately, we can't rate you with points, As your invited friend was "
-"already in our group 😢"
+"Unfortunately, we can't rate you with points, As your invited friend {username}was already in our group 😢"
 msgstr ""
-"სამწუხაროდ, ვერ დაგირიცხავთ სარეიტინგო ქულას , რადგან თქვენი მოწვეული "
-"მეგობარი ჩვენს ჯგუფში იმყოფება 😢"
+"სამწუხაროდ, ვერ დაგირიცხავთ ქულას , რადგან თქვენი მოწვეული მეგობარი {username}ჩვენს ჯგუფში უკვე იმყოფებოდა. 😢"
 
-#: handlers/join_to_group.py:55
+#: handlers/join_to_group.py:62
 msgid ""
 "So sad, that you left the group 😢\n"
 "At any time, you can ask to join the group. Your rating will be saved!"
@@ -73,9 +71,9 @@ msgid "Enter the recipient's wallet number"
 msgstr "მიუთითეთ მიმღების საფულის ნომერი"
 
 #: handlers/send_rating.py:34
-msgid "The wallet number can only be a number! Enter wallet number again"
+msgid "The wallet address can only be a numbers! Enter wallet number again"
 msgstr ""
-"საფულის ნომერი უნდა შეიცავდეს მხოლოდ რიცხვს! შეიყვანეთ საფულის ნომერი "
+"საფულის მისამართი უნდა შეიცავდეს მხოლოდ რიცხვს! შეიყვანეთ საფულის ნომერი "
 "ხელმეორედ"
 
 #: handlers/send_rating.py:48
@@ -87,8 +85,8 @@ msgstr ""
 "ხელმისაწვდომია: {rating}"
 
 #: handlers/send_rating.py:54
-msgid "Wallet not found! Enter the correct wallet."
-msgstr "საფულე არ მოიძებნა! შეიყვანეთ სწორი საფულე"
+msgid "Wallet not found! Enter the correct wallet address."
+msgstr "საფულე არ მოიძებნა! შეიყვანეთ სწორი საფულეს მისამართი"
 
 #: handlers/send_rating.py:59
 msgid "Enter an amount no less than 1"
@@ -112,31 +110,31 @@ msgstr ""
 "\n"
 "გაიგზავნოს?"
 
-#: handlers/send_rating.py:92
+#: handlers/send_rating.py:94
 msgid "Success!"
 msgstr "წარმატება"
 
-#: handlers/send_rating.py:94
+#: handlers/send_rating.py:98
 msgid "You have received {amount} rating points"
 msgstr "თქვენ გადმოგირიცხეს {amount} სარეიტინგო ქულა"
 
-#: handlers/send_rating.py:98
-msgid "You don't have enough rating for transfer!"
-msgstr "თქვენ არ გაქვთ საკმარისი რეიტინგი გადარიცხვისთვის!"
+#: handlers/send_rating.py:103
+msgid "You don't have enough rating points for transfer!"
+msgstr "თქვენ არ გაქვთ საკმარისი სარეიტინგო ქულა გადარიცხვისთვის!"
 
-#: handlers/send_rating.py:101
+#: handlers/send_rating.py:107
 msgid "Wallet number not found!"
 msgstr "საფულის ნომერი არ მოიძებნა!"
 
-#: handlers/send_rating.py:113
+#: handlers/send_rating.py:119
 msgid "Ok!"
 msgstr "კარგი!"
 
-#: handlers/start.py:20
+#: handlers/start.py:21
 msgid "Hello again 👋 What do you want to do?"
 msgstr "კიდევ ერთხელ გამარჯობა 👋 რისი გაკეთება გსურს?"
 
-#: handlers/start.py:29 handlers/start.py:40
+#: handlers/start.py:32 handlers/start.py:43
 msgid ""
 "Greetings! Check out the chat rules. Do you agree with them?\n"
 "https://teletype.in/@coiners/Um4d1JbBAgD."
@@ -144,7 +142,7 @@ msgstr ""
 "მოგესალმებით! გაეცანით ჩატის წესებს. ეთანხმებით?\n"
 "https://teletype.in/@coiners/Um4d1JbBAgD."
 
-#: handlers/start.py:53
+#: handlers/start.py:56
 msgid ""
 "Excellent!\n"
 "Here is the link to join the group: {invite_link}\n"
@@ -160,18 +158,17 @@ msgstr ""
 "მოითხოვოთ სარეფერალო ბმული, რათა მოიწვიოთ მეგობარი და გამოიმუშავოთ "
 "რეიტინგი"
 
-#: handlers/start.py:63 handlers/start_for_referrals.py:48
+#: handlers/start.py:67 handlers/start_for_referrals.py:55
 msgid ""
-"Unfortunately! 😓\n"
-"Without accepting the terms, we will not be able to accept you into the "
-"community!"
+"It's a pity! 😓\n"
+"Without accepting the terms, we will not be able to accept you to join "
+"the community!"
 msgstr ""
 "ძალიან სამწუხაროა! 😓\n"
 "იმ შემთხვევაში თუ არ დაეთანხმებით ჩვენს წესებს, ვერ გაწევრიანდებით ჩვენს "
 "ჯგუფში!"
 
-#: handlers/start_for_referrals.py:19
-#, fuzzy
+#: handlers/start_for_referrals.py:39
 msgid ""
 "Hello! Before joining the group, please read the chat rules. Do you agree"
 " with them?\n"
@@ -181,59 +178,58 @@ msgstr ""
 "მოგესალმებით! გაეცანით ჩატის წესებს. ეთანხმებით?\n"
 "https://teletype.in/@coiners/Um4d1JbBAgD."
 
-#: handlers/start_for_referrals.py:44
+#: handlers/start_for_referrals.py:50
 msgid "Excellent! Welcome to chat!"
-msgstr ""
-
-#: keyboards/accept_rules_keyboard.py:8
-msgid "I accept"
-msgstr "ვღებულობ"
+msgstr "შესანიშნავია! კეთილი იყოს თქვენი მობრძანება ჩატში!"
 
 #: keyboards/accept_rules_keyboard.py:9
+msgid "I accept"
+msgstr ""
+
+#: keyboards/accept_rules_keyboard.py:10
 msgid "Do not Accept"
 msgstr "არ ვღებულობ"
 
-#: keyboards/confirmation_send_rating_keyboard.py:8
+#: keyboards/confirmation_send_rating_keyboard.py:9
 msgid "Yes"
 msgstr "დიახ"
 
-#: keyboards/confirmation_send_rating_keyboard.py:9
+#: keyboards/confirmation_send_rating_keyboard.py:10
 msgid "No"
 msgstr "არა"
 
-#: keyboards/is_delete_user_keyboard.py:6
+#: keyboards/is_delete_user_keyboard.py:7
 msgid "Join the group 🤑"
 msgstr "ჯგუფში გაწევრიანება 🤑"
 
-#: keyboards/main_keyboard.py:8
-msgid "Write to admin ✍️"
-msgstr "ადმინისთვის მიწერა ✍️"
-
 #: keyboards/main_keyboard.py:9
-msgid "Reference ❓"
-msgstr "მითითება ❓"
-
-#: keyboards/main_keyboard.py:10
-msgid "Referral link 🤝"
-msgstr "რეფერალური ბმული 🤝"
-
-#: keyboards/main_keyboard.py:11
 msgid "My wallet 💰"
 msgstr "ჩემი საფულე 💰"
 
+#: keyboards/main_keyboard.py:10
+msgid "Send 💸"
+msgstr "გადარიცხვა 💸"
+
+#: keyboards/main_keyboard.py:11
+msgid "Referral link 🤝"
+msgstr "რეფერალური ბმული 🤝"
+
 #: keyboards/main_keyboard.py:12
-msgid "Share rating 💸"
-msgstr "რეიტინგის გაზიარება 💸"
+msgid "Language 🌐"
+msgstr "ენა 🌐"
 
 #: keyboards/main_keyboard.py:13
-msgid "Exchange rates 💲"
-msgstr "ვალუტების კურსი 💲"
+msgid "Write to administration ✍️"
+msgstr "წერილი ადმინისტრაციას ✍️"
 
-#: keyboards/stop_send_rating_keyboard.py:6
+#: keyboards/stop_send_rating_keyboard.py:7
 msgid "Cancel ❌"
 msgstr "გაუქმება ❌"
 
-#: keyboards/write_to_admin_keyboard.py:6
+#: keyboards/write_to_admin_keyboard.py:7
 msgid "Cancel 🔙"
 msgstr "გაუქმება 🔙"
+
+#~ msgid "ვეთანხმები"
+#~ msgstr "არ ვეთანხმები"
 
