@@ -1,0 +1,234 @@
+# Russian translations for PROJECT.
+# Copyright (C) 2022 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2022-09-02 22:19+0300\n"
+"PO-Revision-Date: 2022-08-31 16:50+0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ru\n"
+"Language-Team: ru <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: handlers/client.py:19
+msgid "What do you want to write?"
+msgstr "Что хотите написать ?"
+
+#: handlers/client.py:23 handlers/send_rating.py:129
+msgid "Ok, back to main menu"
+msgstr "Ок, возврат в главное меню"
+
+#: handlers/client.py:32
+msgid ""
+"Here is your referral link:\n"
+"{link}\n"
+"Send it to your friend 😎"
+msgstr ""
+"Вот твоя реферальная ссылка: {link}\n"
+"Отправь ее своему другу 😎"
+
+#: handlers/client.py:39
+msgid "Choose language"
+msgstr "Выберите язык"
+
+#: handlers/join_to_group.py:31
+msgid ""
+"You have been awarded by {count} rating points for an invited friend "
+"{username}💪"
+msgstr "Вам начислено {count} очков рейтинга за приглашенного друга {username}💪"
+
+#: handlers/join_to_group.py:42
+msgid ""
+"Unfortunately, we can't rate you with points, As your invited friend "
+"{username}was already in our group 😢"
+msgstr ""
+"К сожалению, мы не можем начислить вам рейтинг, так как ваш приглашенный "
+"друг {username}уже состоял в нашей группе 😢"
+
+#: handlers/join_to_group.py:64
+msgid ""
+"So sad, that you left the group 😢\n"
+"At any time, you can ask to join the group. Your rating will be saved!"
+msgstr ""
+"Очень жаль, что вы покинули группу 😢\n"
+"В любое время вы можете попросить снова вступить в группу. Ваш рейтинг "
+"при этом сохраниться !"
+
+#: handlers/send_rating.py:21
+msgid ""
+"Your wallet: {wallet}\n"
+"Your rating: {rating}"
+msgstr ""
+"Твой кошелек: {wallet}\n"
+"Твой рейтинг: {rating}"
+
+#: handlers/send_rating.py:29
+msgid "Enter the recipient's wallet number"
+msgstr "Введите номер кошелька получателя"
+
+#: handlers/send_rating.py:34
+msgid "The wallet address can only be a numbers! Enter wallet number again"
+msgstr "Адрес кошелька может быть только числом ! Введите номер кошелька еще раз"
+
+#: handlers/send_rating.py:48
+msgid ""
+"Enter the rating amount.\n"
+"Available: {rating}"
+msgstr ""
+"Введите количество рейтинга.\n"
+"Доступно: {rating}"
+
+#: handlers/send_rating.py:54
+msgid "Wallet not found! Enter the correct wallet address."
+msgstr "Кошелек не найден! Введите правильный адрес кошелек"
+
+#: handlers/send_rating.py:59
+msgid "Enter an amount no less than 1"
+msgstr "Введите сумму не меньше 1"
+
+#: handlers/send_rating.py:64
+msgid "The number of ratings can only be a number! Enter rating amount again."
+msgstr ""
+"Количество рейтинга может быть только числом ! Введите сумму рейтинга еще"
+" раз"
+
+#: handlers/send_rating.py:74
+msgid ""
+"Rating: {rating}\n"
+"Recipient: {wallet}\n"
+"\n"
+"Send?"
+msgstr ""
+"Рейтинг: {rating}\n"
+"Получатель: {wallet}\n"
+"\n"
+"Отправить?"
+
+#: handlers/send_rating.py:94
+msgid "Success!"
+msgstr "Успешно!"
+
+#: handlers/send_rating.py:98
+msgid "You have received {amount} rating points"
+msgstr "Вам перевели {amount} очков рейтинга"
+
+#: handlers/send_rating.py:103
+msgid "You don't have enough rating points for transfer!"
+msgstr "У вас не достаточно очков рейтинга для перевода!"
+
+#: handlers/send_rating.py:107
+msgid "Wallet number not found!"
+msgstr "Номер кошелька не найден!"
+
+#: handlers/send_rating.py:119
+msgid "Ok!"
+msgstr "Хорошо!"
+
+#: handlers/start.py:21
+msgid "Hello again 👋 What do you want to do?"
+msgstr "И снова Здравствуйте 👋 Что хочешь сделать ?"
+
+#: handlers/start.py:32 handlers/start.py:43
+msgid ""
+"Greetings! Check out the chat rules. Do you agree with them?\n"
+"https://teletype.in/@coiners/Um4d1JbBAgD."
+msgstr ""
+"Приветствую! Ознакомьтесь с правилами чата. Согласны ли вы с ними?\n"
+"https://teletype.in/@coiners/Um4d1JbBAgD."
+
+#: handlers/start.py:56
+msgid ""
+"Excellent!\n"
+"Here is the link to join the group: {invite_link}\n"
+"\n"
+"You can always get acquainted with our referral system, write to the "
+"admin, or request a referral link to invite a friend and earn yourself a "
+"rating 😎"
+msgstr ""
+"Отлично!\n"
+"Вот ссылка на вступление в группу: {invite_link}\n"
+"\n"
+"Ты всегда можешь ознакомиться с нашей реферальной системой, написать "
+"админу или запросить реферальную ссылку, чтобы пригласить друга и "
+"заработать себе рейтинг 😎"
+
+#: handlers/start.py:67 handlers/start_for_referrals.py:55
+msgid ""
+"It's a pity! 😓\n"
+"Without accepting the terms, we will not be able to accept you to join "
+"the community!"
+msgstr ""
+"Очень жаль 😓\n"
+"Без принятия условий мы не сможем принять тебя в сообщество!"
+
+#: handlers/start_for_referrals.py:39
+msgid ""
+"Hello! Before joining the group, please read the chat rules. Do you agree"
+" with them?\n"
+"\n"
+"https://teletype.in/@coiners/Um4d1JbBAgD."
+msgstr ""
+"Приветствую! Ознакомьтесь с правилами чата. Согласны ли вы с ними?\n"
+"https://teletype.in/@coiners/Um4d1JbBAgD."
+
+#: handlers/start_for_referrals.py:50
+msgid "Excellent! Welcome to chat!"
+msgstr "Отлично ! Добро пожаловать в чат !"
+
+#: keyboards/accept_rules_keyboard.py:9
+msgid "I accept"
+msgstr "Принимаю"
+
+#: keyboards/accept_rules_keyboard.py:10
+msgid "Do not Accept"
+msgstr "Не принимаю"
+
+#: keyboards/confirmation_send_rating_keyboard.py:9
+msgid "Yes"
+msgstr "Да"
+
+#: keyboards/confirmation_send_rating_keyboard.py:10
+msgid "No"
+msgstr "Нет"
+
+#: keyboards/is_delete_user_keyboard.py:7
+msgid "Join the group 🤑"
+msgstr "Присоединиться к группе 🤑"
+
+#: keyboards/main_keyboard.py:9
+msgid "My wallet 💰"
+msgstr "Мой кошелек 💰"
+
+#: keyboards/main_keyboard.py:10
+msgid "Send 💸"
+msgstr "Отправить 💸"
+
+#: keyboards/main_keyboard.py:11
+msgid "Referral link 🤝"
+msgstr "Реферальная ссылка 🤝"
+
+#: keyboards/main_keyboard.py:12
+msgid "Language 🌐"
+msgstr "Язык 🌐"
+
+#: keyboards/main_keyboard.py:13
+msgid "Write to administration ✍️"
+msgstr "Написать администратору ✍️"
+
+#: keyboards/stop_send_rating_keyboard.py:7
+msgid "Cancel ❌"
+msgstr "Отмена ❌"
+
+#: keyboards/write_to_admin_keyboard.py:7
+msgid "Cancel 🔙"
+msgstr "Отмена 🔙"
+

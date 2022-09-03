@@ -1,13 +1,16 @@
 from aiogram.types import KeyboardButton, ReplyKeyboardMarkup
 
+from setup_bot import _
 
-main_keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
 
-b1 = KeyboardButton("Write to admin ✍️")
-b2 = KeyboardButton("Reference ❓")
-b3 = KeyboardButton("Referral link 🤝")
-b4 = KeyboardButton("My wallet 💰")
-b5 = KeyboardButton("Share rating 💸")
-b6 = KeyboardButton("Exchange rates 💲")
+def main_keyboard(locale: str = None):
+    keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
 
-main_keyboard.row(b4, b5).row(b1, b2).row(b3, b6)
+    b1 = KeyboardButton(_("My wallet 💰", locale=locale))
+    b2 = KeyboardButton(_("Send 💸", locale=locale))
+    b3 = KeyboardButton(_("Referral link 🤝", locale=locale))
+    b4 = KeyboardButton(_("Language 🌐", locale=locale))
+    b5 = KeyboardButton(_("Write to administration ✍️", locale=locale))
+
+    keyboard.row(b1, b2).row(b3, b4).row(b5)
+    return keyboard

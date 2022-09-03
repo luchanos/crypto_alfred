@@ -16,6 +16,10 @@ async def is_deleted_user(user_id: int):
     return False if user.get("detail") else True
 
 
+async def get_deleted_user(user_id: int):
+    return await bot.users_api_client.get_deleted_user(user_id)
+
+
 async def recreate_user(user_id: int):
     await bot.users_api_client.recreate_user(user_id)
 
@@ -42,3 +46,7 @@ async def send_rating_to_user(from_user: int, to_user: int, amount: int):
 
 async def get_user_by_referral_link(referral_link: str):
     return await bot.users_api_client.get_user_by_referral_link(referral_link)
+
+
+async def update_lang(user_id: int, lang: str):
+    return await bot.users_api_client.update_lang(user_id, lang)
