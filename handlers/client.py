@@ -15,23 +15,22 @@ class FormChangeLang(StatesGroup):
     set_lang = State()
 
 
+class FormWriteToAdmin(StatesGroup):
+    message = State()
+
+
 async def write_to_admin(message: types.Message):
+    await FormWriteToAdmin.message.set()
     await message.answer(_("What do you want to write?"), reply_markup=write_to_admin_keyboard())
 
 
-async def back_to_main(message: types.Message):
-    await message.answer(_("Ok, back to main menu"), reply_markup=main_keyboard())
-
-
-async def give_referral_link(message: types.Message):
-    user = await get_user(message.from_user.id)
-    if user:
-        link = await get_referral_link(message)
-        if link:
-            await message.answer(
-                _("Here is your referral link:\n{link}\nSend it to your friend 😎").format(link=link),
-                reply_markup=main_keyboard(),
-            )
+async def message_to_admin_handler(message: types.Message, state: FSMContext):
+    if message.text in ("Cancel 🔙", "Отмена 🔙", "გაუქმება 🔙"):
+        await message.answer(_("Ok, back to main menu"), reply_markup=main_keyboard())
+        await state.finish()
+    else:
+        await message.answer(_("Ваше сообщение зарегистрировано!"), reply_markup=main_keyboard())
+        await state.finish()
 
 
 async def change_language(message: types.Message):
@@ -54,14 +53,27 @@ async def set_lang(message: types.Message, state: FSMContext):
         await state.finish()
 
 
+async def give_referral_link(message: types.Message):
+    user = await get_user(message.from_user.id)
+    if user:
+        link = await get_referral_link(message)
+        if link:
+            await message.answer(
+                _("Here is your referral link:\n{link}\nSend it to your friend 😎").format(link=link),
+                reply_markup=main_keyboard(),
+            )
+
+
 def register_handlers_client(dp: Dispatcher):
     dp.register_message_handler(
         write_to_admin,
         Text(equals=["Write to administration ✍️", "Написать администратору ✍️", "წერილი ადმინისტრაციას ✍️"]),
     )
+    dp.register_message_handler(message_to_admin_handler, content_types=["text"], state=FormWriteToAdmin.message)
+
+    dp.register_message_handler(change_language, Text(equals=["Language 🌐", "Язык 🌐", "ენა 🌐"]))
+    dp.register_message_handler(set_lang, content_types=["text"], state=FormChangeLang.set_lang)
+
     dp.register_message_handler(
         give_referral_link, Text(equals=["Referral link 🤝", "Реферальная ссылка 🤝", "რეფერალური ბმული 🤝"])
     )
-    dp.register_message_handler(back_to_main, Text(equals=["Cancel 🔙", "Отмена 🔙", "გაუქმება 🔙"]))
-    dp.register_message_handler(change_language, Text(equals=["Language 🌐", "Язык 🌐", "ენა 🌐"]))
-    dp.register_message_handler(set_lang, content_types=["text"], state=FormChangeLang.set_lang)

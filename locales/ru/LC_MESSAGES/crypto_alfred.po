@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-09-02 22:19+0300\n"
+"POT-Creation-Date: 2022-09-03 14:18+0300\n"
 "PO-Revision-Date: 2022-08-31 16:50+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -19,15 +19,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: handlers/client.py:19
+#: handlers/client.py:24
 msgid "What do you want to write?"
 msgstr "Что хотите написать ?"
 
-#: handlers/client.py:23 handlers/send_rating.py:129
+#: handlers/client.py:29 handlers/send_rating.py:40 handlers/send_rating.py:70
 msgid "Ok, back to main menu"
 msgstr "Ок, возврат в главное меню"
 
 #: handlers/client.py:32
+msgid "Ваше сообщение зарегистрировано!"
+msgstr ""
+
+#: handlers/client.py:38
+msgid "Choose language"
+msgstr "Выберите язык"
+
+#: handlers/client.py:62
 msgid ""
 "Here is your referral link:\n"
 "{link}\n"
@@ -35,10 +43,6 @@ msgid ""
 msgstr ""
 "Вот твоя реферальная ссылка: {link}\n"
 "Отправь ее своему другу 😎"
-
-#: handlers/client.py:39
-msgid "Choose language"
-msgstr "Выберите язык"
 
 #: handlers/join_to_group.py:31
 msgid ""
@@ -63,7 +67,7 @@ msgstr ""
 "В любое время вы можете попросить снова вступить в группу. Ваш рейтинг "
 "при этом сохраниться !"
 
-#: handlers/send_rating.py:21
+#: handlers/send_rating.py:22
 msgid ""
 "Your wallet: {wallet}\n"
 "Your rating: {rating}"
@@ -71,15 +75,15 @@ msgstr ""
 "Твой кошелек: {wallet}\n"
 "Твой рейтинг: {rating}"
 
-#: handlers/send_rating.py:29
+#: handlers/send_rating.py:33
 msgid "Enter the recipient's wallet number"
 msgstr "Введите номер кошелька получателя"
 
-#: handlers/send_rating.py:34
+#: handlers/send_rating.py:43
 msgid "The wallet address can only be a numbers! Enter wallet number again"
 msgstr "Адрес кошелька может быть только числом ! Введите номер кошелька еще раз"
 
-#: handlers/send_rating.py:48
+#: handlers/send_rating.py:55
 msgid ""
 "Enter the rating amount.\n"
 "Available: {rating}"
@@ -87,21 +91,21 @@ msgstr ""
 "Введите количество рейтинга.\n"
 "Доступно: {rating}"
 
-#: handlers/send_rating.py:54
+#: handlers/send_rating.py:62
 msgid "Wallet not found! Enter the correct wallet address."
 msgstr "Кошелек не найден! Введите правильный адрес кошелек"
 
-#: handlers/send_rating.py:59
-msgid "Enter an amount no less than 1"
-msgstr "Введите сумму не меньше 1"
-
-#: handlers/send_rating.py:64
+#: handlers/send_rating.py:73
 msgid "The number of ratings can only be a number! Enter rating amount again."
 msgstr ""
 "Количество рейтинга может быть только числом ! Введите сумму рейтинга еще"
 " раз"
 
-#: handlers/send_rating.py:74
+#: handlers/send_rating.py:77
+msgid "Enter an amount no less than 1"
+msgstr "Введите сумму не меньше 1"
+
+#: handlers/send_rating.py:84
 msgid ""
 "Rating: {rating}\n"
 "Recipient: {wallet}\n"
@@ -113,23 +117,19 @@ msgstr ""
 "\n"
 "Отправить?"
 
-#: handlers/send_rating.py:94
+#: handlers/send_rating.py:106
 msgid "Success!"
 msgstr "Успешно!"
 
-#: handlers/send_rating.py:98
-msgid "You have received {amount} rating points"
-msgstr "Вам перевели {amount} очков рейтинга"
+#: handlers/send_rating.py:111
+msgid "You have received {amount} rating points {from_username}"
+msgstr "Вам перевели {amount} очков рейтинга {from_username}"
 
-#: handlers/send_rating.py:103
+#: handlers/send_rating.py:117
 msgid "You don't have enough rating points for transfer!"
 msgstr "У вас не достаточно очков рейтинга для перевода!"
 
-#: handlers/send_rating.py:107
-msgid "Wallet number not found!"
-msgstr "Номер кошелька не найден!"
-
-#: handlers/send_rating.py:119
+#: handlers/send_rating.py:124
 msgid "Ok!"
 msgstr "Хорошо!"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-09-02 22:19+0300\n"
+"POT-Creation-Date: 2022-09-03 14:18+0300\n"
 "PO-Revision-Date: 2022-08-31 18:01+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ka\n"
@@ -18,15 +18,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: handlers/client.py:19
+#: handlers/client.py:24
 msgid "What do you want to write?"
 msgstr "რისი დაწერა გსურთ?"
 
-#: handlers/client.py:23 handlers/send_rating.py:129
+#: handlers/client.py:29 handlers/send_rating.py:40 handlers/send_rating.py:70
 msgid "Ok, back to main menu"
 msgstr "კარგი, დაბრუნება მთავარ მენიუში"
 
 #: handlers/client.py:32
+msgid "Ваше сообщение зарегистрировано!"
+msgstr ""
+
+#: handlers/client.py:38
+msgid "Choose language"
+msgstr "ამოირჩიეთ ენა"
+
+#: handlers/client.py:62
 msgid ""
 "Here is your referral link:\n"
 "{link}\n"
@@ -34,10 +42,6 @@ msgid ""
 msgstr ""
 "თქვენი რეფერალური სისტემა: {link}\n"
 "გაუგზავნეთ თქვენს მეგობარს 😎"
-
-#: handlers/client.py:39
-msgid "Choose language"
-msgstr "ამოირჩიეთ ენა"
 
 #: handlers/join_to_group.py:31
 msgid ""
@@ -62,7 +66,7 @@ msgstr ""
 "ნებისმიერ დროს შეგიძლიათ მოითხოვოთ ჯგუფში გაწევრიანება, ამასთანავე "
 "შენარჩუნდება თქვენი რეიტინგი!"
 
-#: handlers/send_rating.py:21
+#: handlers/send_rating.py:22
 msgid ""
 "Your wallet: {wallet}\n"
 "Your rating: {rating}"
@@ -70,17 +74,17 @@ msgstr ""
 "შენი საფულე: {wallet}\n"
 "შენი რეიტინგი: {rating}"
 
-#: handlers/send_rating.py:29
+#: handlers/send_rating.py:33
 msgid "Enter the recipient's wallet number"
 msgstr "მიუთითეთ მიმღების საფულის ნომერი"
 
-#: handlers/send_rating.py:34
+#: handlers/send_rating.py:43
 msgid "The wallet address can only be a numbers! Enter wallet number again"
 msgstr ""
 "საფულის მისამართი უნდა შეიცავდეს მხოლოდ რიცხვს! შეიყვანეთ საფულის ნომერი "
 "ხელმეორედ"
 
-#: handlers/send_rating.py:48
+#: handlers/send_rating.py:55
 msgid ""
 "Enter the rating amount.\n"
 "Available: {rating}"
@@ -88,21 +92,21 @@ msgstr ""
 "შეიყვანეთ რეიტინგის რაოდენობა.\n"
 "ხელმისაწვდომია: {rating}"
 
-#: handlers/send_rating.py:54
+#: handlers/send_rating.py:62
 msgid "Wallet not found! Enter the correct wallet address."
 msgstr "საფულე არ მოიძებნა! შეიყვანეთ სწორი საფულეს მისამართი"
 
-#: handlers/send_rating.py:59
-msgid "Enter an amount no less than 1"
-msgstr "შეიყვანეთ თანხა არანაკლებ 1"
-
-#: handlers/send_rating.py:64
+#: handlers/send_rating.py:73
 msgid "The number of ratings can only be a number! Enter rating amount again."
 msgstr ""
 "რეიტინგის ოდენობა შეიცავს მხოლოდ რიცხვს! შეიყვანეთ ხელმეორედ რეიტინგის "
 "ჯამი"
 
-#: handlers/send_rating.py:74
+#: handlers/send_rating.py:77
+msgid "Enter an amount no less than 1"
+msgstr "შეიყვანეთ თანხა არანაკლებ 1"
+
+#: handlers/send_rating.py:84
 msgid ""
 "Rating: {rating}\n"
 "Recipient: {wallet}\n"
@@ -114,23 +118,19 @@ msgstr ""
 "\n"
 "გაიგზავნოს?"
 
-#: handlers/send_rating.py:94
+#: handlers/send_rating.py:106
 msgid "Success!"
 msgstr "წარმატება"
 
-#: handlers/send_rating.py:98
-msgid "You have received {amount} rating points"
-msgstr "თქვენ გადმოგირიცხეს {amount} სარეიტინგო ქულა"
+#: handlers/send_rating.py:111
+msgid "You have received {amount} rating points {from_username}"
+msgstr "თქვენ გადმოგირიცხეს {amount} სარეიტინგო ქულა {from_username}"
 
-#: handlers/send_rating.py:103
+#: handlers/send_rating.py:117
 msgid "You don't have enough rating points for transfer!"
 msgstr "თქვენ არ გაქვთ საკმარისი სარეიტინგო ქულა გადარიცხვისთვის!"
 
-#: handlers/send_rating.py:107
-msgid "Wallet number not found!"
-msgstr "საფულის ნომერი არ მოიძებნა!"
-
-#: handlers/send_rating.py:119
+#: handlers/send_rating.py:124
 msgid "Ok!"
 msgstr "კარგი!"
 
