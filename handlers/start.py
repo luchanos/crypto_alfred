@@ -25,6 +25,7 @@ async def start(message: types.Message):
         # if joining for the first time
         if deleted_user.get("join_to_group_count") == 0:
             await FormAcceptRules.set_lang.set()
+            await message.answer_sticker("CAACAgIAAxkBAAEFwHRjFFPnOMR1xAKqg3cX6LEMSjhshgACVAADQbVWDGq3-McIjQH6KQQ")
             await message.answer("Please, choose language", reply_markup=set_lang_keyboard())
         else:
             await FormAcceptRules.accept_rules.set()

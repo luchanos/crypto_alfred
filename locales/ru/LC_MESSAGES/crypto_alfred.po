@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-09-03 14:18+0300\n"
+"POT-Creation-Date: 2022-09-04 11:46+0300\n"
 "PO-Revision-Date: 2022-08-31 16:50+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -44,13 +44,13 @@ msgstr ""
 "Вот твоя реферальная ссылка: {link}\n"
 "Отправь ее своему другу 😎"
 
-#: handlers/join_to_group.py:31
+#: handlers/join_to_group.py:32
 msgid ""
 "You have been awarded by {count} rating points for an invited friend "
 "{username}💪"
 msgstr "Вам начислено {count} очков рейтинга за приглашенного друга {username}💪"
 
-#: handlers/join_to_group.py:42
+#: handlers/join_to_group.py:44
 msgid ""
 "Unfortunately, we can't rate you with points, As your invited friend "
 "{username}was already in our group 😢"
@@ -58,7 +58,7 @@ msgstr ""
 "К сожалению, мы не можем начислить вам рейтинг, так как ваш приглашенный "
 "друг {username}уже состоял в нашей группе 😢"
 
-#: handlers/join_to_group.py:64
+#: handlers/join_to_group.py:67
 msgid ""
 "So sad, that you left the group 😢\n"
 "At any time, you can ask to join the group. Your rating will be saved!"
@@ -137,7 +137,7 @@ msgstr "Хорошо!"
 msgid "Hello again 👋 What do you want to do?"
 msgstr "И снова Здравствуйте 👋 Что хочешь сделать ?"
 
-#: handlers/start.py:32 handlers/start.py:43
+#: handlers/start.py:33 handlers/start.py:44
 msgid ""
 "Greetings! Check out the chat rules. Do you agree with them?\n"
 "https://teletype.in/@coiners/Um4d1JbBAgD."
@@ -145,7 +145,7 @@ msgstr ""
 "Приветствую! Ознакомьтесь с правилами чата. Согласны ли вы с ними?\n"
 "https://teletype.in/@coiners/Um4d1JbBAgD."
 
-#: handlers/start.py:56
+#: handlers/start.py:57
 msgid ""
 "Excellent!\n"
 "Here is the link to join the group: {invite_link}\n"
@@ -161,7 +161,7 @@ msgstr ""
 "админу или запросить реферальную ссылку, чтобы пригласить друга и "
 "заработать себе рейтинг 😎"
 
-#: handlers/start.py:67 handlers/start_for_referrals.py:55
+#: handlers/start.py:68 handlers/start_for_referrals.py:59
 msgid ""
 "It's a pity! 😓\n"
 "Without accepting the terms, we will not be able to accept you to join "
@@ -170,7 +170,7 @@ msgstr ""
 "Очень жаль 😓\n"
 "Без принятия условий мы не сможем принять тебя в сообщество!"
 
-#: handlers/start_for_referrals.py:39
+#: handlers/start_for_referrals.py:43
 msgid ""
 "Hello! Before joining the group, please read the chat rules. Do you agree"
 " with them?\n"
@@ -180,7 +180,7 @@ msgstr ""
 "Приветствую! Ознакомьтесь с правилами чата. Согласны ли вы с ними?\n"
 "https://teletype.in/@coiners/Um4d1JbBAgD."
 
-#: handlers/start_for_referrals.py:50
+#: handlers/start_for_referrals.py:55
 msgid "Excellent! Welcome to chat!"
 msgstr "Отлично ! Добро пожаловать в чат !"
 

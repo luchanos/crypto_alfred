@@ -20,6 +20,7 @@ async def new_chat_member(message: types.ChatMemberUpdated):
     # if user join the group
     if status == "member":
 
+        # if user join the group first
         if user.get("join_to_group_count") == 1:
             res = await update_common_rating_referral(invite_link)
 
@@ -31,6 +32,7 @@ async def new_chat_member(message: types.ChatMemberUpdated):
                         locale=res.get("lang"),
                     ).format(count=REFERRAL_COUNT_FOR_COMMON_RATING, username=f"@{username} " if username else ""),
                 )
+
         else:
             user_with_referral_link = await get_user_by_referral_link(invite_link)
             if user_with_referral_link.get("user_id"):
@@ -42,6 +44,7 @@ async def new_chat_member(message: types.ChatMemberUpdated):
                         locale=user_with_referral_link.get("lang"),
                     ).format(username=f"@{username} " if username else ""),
                 )
+
         await message.bot.promote_chat_member(
             CHAT_ID_GROUP, message.new_chat_member.user.id, can_pin_messages=True
         )

@@ -20,6 +20,10 @@ async def start_set_lang(message: types.ChatJoinRequest):
     retry_cnt = 10
     while retry_cnt > 0:
         try:
+            await message.bot.send_sticker(
+                chat_id=message.from_user.id,
+                sticker="CAACAgIAAxkBAAEFwHRjFFPnOMR1xAKqg3cX6LEMSjhshgACVAADQbVWDGq3-McIjQH6KQQ",
+            )
             await message.bot.send_message(
                 chat_id=message.from_user.id,
                 text="Please, choose language",
@@ -46,10 +50,10 @@ async def start_for_referrals(message: types.Message):
 
 async def accept_rules_referral(message: types.Message, state: FSMContext):
     if message.text in ("I accept", "Принимаю", "ვღებულობ"):
+        await state.finish()
         await recreate_user(message.from_user.id)
         await message.answer(text=_("Excellent! Welcome to chat!"), reply_markup=main_keyboard())
         await message.bot.approve_chat_join_request(user_id=message.from_user.id, chat_id=CHAT_ID_GROUP)
-        await state.finish()
     elif message.text in ("Do not Accept", "Не принимаю", "არ ვღებულობ"):
         await message.answer(
             text=_(
@@ -58,6 +62,8 @@ async def accept_rules_referral(message: types.Message, state: FSMContext):
             ),
             reply_markup=accept_rules_keyboard(),
         )
+    elif message.text == "/start":
+        await start_for_referrals(message)
 
 
 def register_handlers_start_for_referrals(dp: Dispatcher):
