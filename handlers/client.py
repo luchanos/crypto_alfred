@@ -29,7 +29,7 @@ async def message_to_admin_handler(message: types.Message, state: FSMContext):
         await message.answer(_("Ok, back to main menu"), reply_markup=main_keyboard())
         await state.finish()
     else:
-        await message.answer(_("Ваше сообщение зарегистрировано!"), reply_markup=main_keyboard())
+        await message.answer(_("Your message has been sent!"), reply_markup=main_keyboard())
         await state.finish()
 
 
@@ -41,15 +41,15 @@ async def change_language(message: types.Message):
 async def set_lang(message: types.Message, state: FSMContext):
     if message.text == "Русский 🇷🇺":
         await update_lang(user_id=message.from_user.id, lang="ru")
-        await message.answer("Готово!", reply_markup=main_keyboard(locale="ru"))
+        await message.answer("Готово", reply_markup=main_keyboard(locale="ru"))
         await state.finish()
     elif message.text == "English 🇬🇧":
         await update_lang(user_id=message.from_user.id, lang="en")
-        await message.answer("Complete!", reply_markup=main_keyboard(locale="en"))
+        await message.answer("Complete", reply_markup=main_keyboard(locale="en"))
         await state.finish()
     elif message.text == "ქართული 🇬🇪":
         await update_lang(user_id=message.from_user.id, lang="ka")
-        await message.answer("ცვლილება წარმატებულია", reply_markup=main_keyboard(locale="ka"))
+        await message.answer("დასრულებულია", reply_markup=main_keyboard(locale="ka"))
         await state.finish()
 
 

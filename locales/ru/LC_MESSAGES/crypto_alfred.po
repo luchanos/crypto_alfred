@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-09-04 11:46+0300\n"
+"POT-Creation-Date: 2022-09-05 09:33+0300\n"
 "PO-Revision-Date: 2022-08-31 16:50+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -28,8 +28,8 @@ msgid "Ok, back to main menu"
 msgstr "Ок, возврат в главное меню"
 
 #: handlers/client.py:32
-msgid "Ваше сообщение зарегистрировано!"
-msgstr ""
+msgid "Your message has been sent!"
+msgstr "Ваше сообщение отправлено!"
 
 #: handlers/client.py:38
 msgid "Choose language"

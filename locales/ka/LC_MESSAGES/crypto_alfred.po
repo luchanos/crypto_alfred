@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-09-04 11:46+0300\n"
+"POT-Creation-Date: 2022-09-05 09:33+0300\n"
 "PO-Revision-Date: 2022-08-31 18:01+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ka\n"
@@ -27,8 +27,8 @@ msgid "Ok, back to main menu"
 msgstr "კარგი, დაბრუნება მთავარ მენიუში"
 
 #: handlers/client.py:32
-msgid "Ваше сообщение зарегистрировано!"
-msgstr ""
+msgid "Your message has been sent!"
+msgstr "თქვენი შეტყობინება გაგზავნილია!"
 
 #: handlers/client.py:38
 msgid "Choose language"
@@ -233,4 +233,7 @@ msgstr "გაუქმება ❌"
 #: keyboards/write_to_admin_keyboard.py:7
 msgid "Cancel 🔙"
 msgstr "გაუქმება 🔙"
+
+#~ msgid "Ваше сообщение зарегистрировано!"
+#~ msgstr ""
 
